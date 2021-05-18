@@ -1,4 +1,4 @@
-import { Client } from "discord.js";
+import { Client, GuildMember, Guild, TextChannel } from "discord.js";
 declare type Options = {
     tts?: boolean;
     type?: number;
@@ -12,37 +12,18 @@ declare type InteractionOpts = {
     client: Client;
     type: number;
     token: string;
-    member: {
-        user: {
-            id: string;
-            username: string;
-            avatar: string;
-            discriminator: string;
-            public_flags: number;
-        };
-        roles: string[];
-        premium_since: null;
-        permissions: string;
-        pending: boolean;
-        nick: null;
-        mute: boolean;
-        joined_at: string;
-        is_pending: boolean;
-        deaf: false;
-    };
+    member: GuildMember;
     id: string;
-    guild_id: string;
+    guild: Guild;
     data: {
-        options: [
-            {
-                name: string;
-                value: string;
-            }
-        ];
+        options: [{
+            name: string;
+            value: string;
+        }];
         name: string;
         id: string;
     };
-    channel_id: string;
+    channel: TextChannel;
 };
 interface Interaction {
     reply(content: any, options?: Options): any;
@@ -51,38 +32,18 @@ interface Interaction {
     client: Client;
     type: number;
     token: string;
-    member: {
-        send(content: any): any;
-        user: {
-            id: string;
-            username: string;
-            avatar: string;
-            discriminator: string;
-            public_flags: number;
-        };
-        roles: string[];
-        premium_since: null;
-        permissions: string;
-        pending: boolean;
-        nick: null;
-        mute: boolean;
-        joined_at: string;
-        is_pending: boolean;
-        deaf: false;
-    };
+    member: GuildMember;
     id: string;
-    guild_id: string;
+    guild: Guild;
     data: {
-        options: [
-            {
-                name: string;
-                value: string;
-            }
-        ];
+        options: [{
+            name: string;
+            value: string;
+        }];
         name: string;
         id: string;
     };
-    channel_id: string;
+    channel: TextChannel;
 }
 declare class Interaction {
     constructor(interaction: {
@@ -91,6 +52,7 @@ declare class Interaction {
         id: any;
         channel_id: any;
         member: any;
+        guild_id: string;
     }, options: {
         client: Client;
     });

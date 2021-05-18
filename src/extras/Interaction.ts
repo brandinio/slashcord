@@ -1,4 +1,4 @@
-import { Client, WebhookClient } from "discord.js";
+import { Client, WebhookClient, GuildMember, DiscordAPIError, Guild, Channel, TextChannel } from "discord.js";
 import axios from "axios";
 type Options = {
   tts?: boolean;
@@ -14,26 +14,9 @@ type InteractionOpts = {
   client: Client;
   type: number;
   token: string;
-  member: {
-    user: {
-      id: string;
-      username: string;
-      avatar: string;
-      discriminator: string;
-      public_flags: number;
-    };
-    roles: string[];
-    premium_since: null;
-    permissions: string;
-    pending: boolean;
-    nick: null;
-    mute: boolean;
-    joined_at: string;
-    is_pending: boolean;
-    deaf: false;
-  };
+  member: GuildMember;
   id: string;
-  guild_id: string;
+  guild: Guild
   data: {
     options: [
       {
@@ -44,7 +27,7 @@ type InteractionOpts = {
     name: string;
     id: string;
   };
-  channel_id: string;
+  channel: TextChannel
 };
 
 interface Interaction {
@@ -54,27 +37,9 @@ interface Interaction {
   client: Client;
   type: number;
   token: string;
-  member: {
-    send(content: any): any
-    user: {
-      id: string;
-      username: string;
-      avatar: string;
-      discriminator: string;
-      public_flags: number;
-    };
-    roles: string[];
-    premium_since: null;
-    permissions: string;
-    pending: boolean;
-    nick: null;
-    mute: boolean;
-    joined_at: string;
-    is_pending: boolean;
-    deaf: false;
-  };
+  member: GuildMember
   id: string;
-  guild_id: string;
+  guild: Guild
   data: {
     options: [
       {
@@ -85,18 +50,19 @@ interface Interaction {
     name: string;
     id: string;
   };
-  channel_id: string;
+  channel: TextChannel
 }
 
 class Interaction {
   constructor(
-    interaction: { type: any; token: any; id: any; channel_id: any, member: any }, options: { client: Client })
+    interaction: { type: any; token: any; id: any; channel_id: any, member: any, guild_id: string }, options: { client: Client })
     {
     this.token = interaction.token;
     this.id = interaction.id;
-    this.channel_id = interaction.channel_id;
+    this.channel = new TextChannel(this.guild, { id: interaction.channel_id })
     this.client = options.client;
-    this.member = interaction.member
+    this.member = new GuildMember(this.client, { id: interaction.member.user.id }, this.guild)
+    this.guild = new Guild(this.client, { id: interaction.guild_id })
   }
 
   async reply(response: any, options?: Options) {
