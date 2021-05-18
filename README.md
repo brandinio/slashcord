@@ -1,3 +1,4 @@
+![Slashcord](./img/download.png)
 # Slashcord
 
 📌
