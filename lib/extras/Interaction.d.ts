@@ -1,4 +1,4 @@
-import { Client, GuildMember, Guild, TextChannel } from "discord.js";
+import { Client, GuildMember, Guild, Channel, TextChannel } from "discord.js";
 declare type Options = {
     tts?: boolean;
     type?: number;
@@ -16,10 +16,12 @@ declare type InteractionOpts = {
     id: string;
     guild: Guild;
     data: {
-        options: [{
-            name: string;
-            value: string;
-        }];
+        options: [
+            {
+                name: string;
+                value: string;
+            }
+        ];
         name: string;
         id: string;
     };
@@ -36,23 +38,25 @@ interface Interaction {
     id: string;
     guild: Guild;
     data: {
-        options: [{
-            name: string;
-            value: string;
-        }];
+        options: [
+            {
+                name: string;
+                value: string;
+            }
+        ];
         name: string;
         id: string;
     };
-    channel: TextChannel;
+    channel: Channel;
 }
 declare class Interaction {
     constructor(interaction: {
         type: any;
         token: any;
         id: any;
-        channel_id: any;
         member: any;
-        guild_id: string;
+        guild_id: any;
+        channel_id: any;
     }, options: {
         client: Client;
     });

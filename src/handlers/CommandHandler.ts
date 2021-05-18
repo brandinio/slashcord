@@ -35,6 +35,7 @@ const CommandHandler = async (
             }
 
             commands.set(name, module)
+            console.log(`Slashcord >> Loaded the command: "${name}"`)
             //@ts-ignore
             await client.api.applications(client.user.id).commands.post({
                 data: {

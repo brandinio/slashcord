@@ -50,20 +50,20 @@ interface Interaction {
     name: string;
     id: string;
   };
-  channel: TextChannel
+  channel: Channel
 }
 
 class Interaction {
   constructor(
-    interaction: { type: any; token: any; id: any; channel_id: any, member: any, guild_id: string }, options: { client: Client })
+    interaction: { type: any; token: any; id: any; member: any, guild_id: any, channel_id: any }, options: { client: Client })
     {
-    this.token = interaction.token;
-    this.id = interaction.id;
-    this.channel = new TextChannel(this.guild, { id: interaction.channel_id })
-    this.client = options.client;
-    this.guild = new Guild(this.client, { id: interaction.guild_id })
-    this.member = new GuildMember(this.client, { id: interaction.member.user.id }, this.guild)
-  }
+      this.client = options.client
+      this.token = interaction.token
+      this.id = interaction.id
+      this.guild = this.client.guilds.cache.get(interaction.guild_id)!
+      this.channel = this.client.channels.cache.get(interaction.guild_id)!
+      this.member = this.guild.members.cache.get(interaction.member.user.id)!
+    }
 
   async reply(response: any, options?: Options) {
     if (!response) {
