@@ -9,6 +9,7 @@ export default async (client: Client, commands: Collection<string, Record<string
         const command = commands.get(cmdName)
         if (!command) return;
 
+        //@ts-ignore
         interaction = new Interaction(interaction, { client })
         
         try {
