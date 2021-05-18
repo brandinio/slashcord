@@ -57,12 +57,12 @@ class Interaction {
   constructor(
     interaction: { type: any; token: any; id: any; channel_id: any, member: any, guild_id: string }, options: { client: Client })
     {
+    this.client = options.client;
     this.token = interaction.token;
     this.id = interaction.id;
-    this.channel = new TextChannel(this.guild, { id: interaction.channel_id })
-    this.client = options.client;
-    this.member = new GuildMember(this.client, { id: interaction.member.user.id }, this.guild)
     this.guild = new Guild(this.client, { id: interaction.guild_id })
+    this.channel = new TextChannel(this.guild, { id: interaction.channel_id })
+    this.member = new GuildMember(this.client, { id: interaction.member.user.id }, this.guild)
   }
 
   async reply(response: any, options?: Options) {
