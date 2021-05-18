@@ -1,7 +1,7 @@
 {
   "name": "slashcord",
-  "version": "1.0.0",
-  "description": "A discord slash command handler, which has features for all developers!",
+  "version": "1.0.1",
+  "description": "A simple to use command handler that was made specifically for slash commands, which features that any developer can use!",
   "main": "lib/index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"

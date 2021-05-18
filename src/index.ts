@@ -4,6 +4,7 @@ import { CommandHandler } from "./handlers/CommandHandler";
 import mongo from "./utils/mongo";
 import Command from "./extras/Command";
 import slash from "./utils/slash";
+import { EventHandler } from "./handlers/EventHandler";
 class Slashcord {
   private _commandsDir = "./commands";
   private _eventsDir = "";
@@ -36,8 +37,9 @@ class Slashcord {
     }
 
     if (eventsDir) {
-      this._eventsDir = eventsDir;
-      // Do stuff with the event handler
+      (async () => {
+        await EventHandler(this, eventsDir || this._eventsDir, client);
+      })();
     }
 
     setTimeout(async () => {

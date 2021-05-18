@@ -26,6 +26,7 @@ const CommandHandler = async (
         if (stat.isDirectory()) {
            await CommandHandler(handler, dir, client, commands)
         } else {
+            if (!file.endsWith(".js")) return;
             let module = require(join(itemPath))
             const { name, description, options } = module
             if (!name) {
