@@ -10,9 +10,18 @@
     "type": "git",
     "url": "https://github.com/MysticIsSus/slashcord"
   },
-  "keywords": [],
-  "author": "",
-  "license": "ISC",
+  "keywords": [
+    "discord.js",
+    "slash-commands",
+    "handler",
+    "command-handler"
+  ],
+  "author": "Mystic",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/MysticIsSus/slashcord/issues"
+  },
+  "homepage": "https://github.com/MysticIsSus/slashcord#readme",
   "dependencies": {
     "@types/ws": "^7.4.4",
     "axios": "^0.21.1",
