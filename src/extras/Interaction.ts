@@ -1,4 +1,4 @@
-import { Client } from "discord.js";
+import { Client, WebhookClient } from "discord.js";
 import axios from "axios";
 type Options = {
   tts?: boolean;
@@ -55,6 +55,7 @@ interface Interaction {
   type: number;
   token: string;
   member: {
+    send(content: any): any
     user: {
       id: string;
       username: string;
@@ -89,12 +90,13 @@ interface Interaction {
 
 class Interaction {
   constructor(
-    interaction: { type: any; token: any; id: any; channel_id: any }, options: { client: Client })
+    interaction: { type: any; token: any; id: any; channel_id: any, member: any }, options: { client: Client })
     {
     this.token = interaction.token;
     this.id = interaction.id;
     this.channel_id = interaction.channel_id;
     this.client = options.client;
+    this.member = interaction.member
   }
 
   async reply(response: any, options?: Options) {
@@ -130,6 +132,26 @@ class Interaction {
   async delete() {
       //@ts-ignore
       return this.client.api.webhooks(this.client.user?.id, this.token).messages("@original").delete()
+  }
+
+  async followUp(content: any) {
+    new WebhookClient(this.client.user!.id, this.token).send(content)
+  }
+
+  async edit(content: any) {
+    if (!content) {
+      throw new Error(`Slashcord >> Cannot send an empty message.`)
+    }
+    const data = {
+      content: content
+    }
+
+    axios.patch(`https://discord.com/api/v8/webhooks/${this.client.user!.id}/${this.token}/messages/@original`, data, {
+      headers: {
+        'Authorization': `Bot ${this.client.token}`,
+        'Content-Type': 'application/json'
+      }
+    })
   }
 }
 

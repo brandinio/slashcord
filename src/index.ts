@@ -8,7 +8,6 @@ import { EventHandler } from "./handlers/EventHandler";
 class Slashcord {
   private _commandsDir = "./commands";
   private _eventsDir = "";
-  private _testServers: string[] = [];
   private _mongo = "";
   private client!: Client;
   public commands: Collection<string, Record<string, any>> = new Collection();
@@ -52,6 +51,10 @@ class Slashcord {
   public setMongoPath(mongoPath: string): Slashcord {
     this._mongo = mongoPath;
     return this;
+  }
+
+  public get mongoURI() {
+    return this._mongo
   }
 }
 

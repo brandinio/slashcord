@@ -52,6 +52,7 @@ interface Interaction {
     type: number;
     token: string;
     member: {
+        send(content: any): any;
         user: {
             id: string;
             username: string;
@@ -89,9 +90,12 @@ declare class Interaction {
         token: any;
         id: any;
         channel_id: any;
+        member: any;
     }, options: {
         client: Client;
     });
+    followUp(content: any): Promise<void>;
+    edit(content: any): Promise<void>;
 }
 export default Interaction;
 export { InteractionOpts };
