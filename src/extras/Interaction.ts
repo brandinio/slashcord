@@ -61,8 +61,8 @@ class Interaction {
     this.id = interaction.id;
     this.channel = new TextChannel(this.guild, { id: interaction.channel_id })
     this.client = options.client;
-    this.member = new GuildMember(this.client, { id: interaction.member.user.id }, this.guild)
     this.guild = new Guild(this.client, { id: interaction.guild_id })
+    this.member = new GuildMember(this.client, { id: interaction.member.user.id }, this.guild)
   }
 
   async reply(response: any, options?: Options) {
