@@ -14,7 +14,7 @@ npm i slashcord
 ```
 # Usage
 
-**Slashcord** is very simple to use, use the [guide]() for more info!
+**Slashcord** is very simple to use, use the [guide](https://slashcord.gitbook.io/slashcord/) for more info!
 
 You can use this example to set it up!
 ```js
@@ -36,4 +36,4 @@ client.login('token')
 
 Pull requests are welcome. For major changes, please open an issue first to discuss what you would like to change.
 
-**Get your [support]() in the discord server!**
+**Get your [support](https://discord.gg/36nFHPmRqk) in the discord server!**
