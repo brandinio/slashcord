@@ -1,5 +1,6 @@
 import { Client } from "discord.js";
 import CommandHandler from "./classes/CommandHandler";
+import EventHandler from "./classes/EventHandler";
 import SlashCmds from "./classes/SlashCommands";
 
 import Command from "./extras/Command";
@@ -11,6 +12,7 @@ class Slashcord {
   private _testServers: string[] = [];
 
   private _commandHandler: CommandHandler;
+  private _eventHandler: EventHandler;
   private _slashCmds: SlashCmds;
 
   constructor(
@@ -28,6 +30,7 @@ class Slashcord {
     // Redefining stuff, maybe?
     this._client = client;
     this._commandsDir = commandsDir || this._commandsDir;
+    this._eventsDir = eventsDir || this._eventsDir;
     this._testServers = testServers!;
 
     if (!commandsDir) {
@@ -36,19 +39,9 @@ class Slashcord {
       );
     }
 
-    if (module && require.main) {
-      const { path } = require.main!;
-      if (path) {
-        this._commandsDir = `${path}/${this._commandsDir}`;
-      }
-
-      if (this._eventsDir) {
-        this._eventsDir = `${path}/${this._eventsDir}`;
-      }
-    }
-
     this._slashCmds = new SlashCmds(this, client);
     this._commandHandler = new CommandHandler(this, client, this._commandsDir);
+    this._eventHandler = new EventHandler(client, this, this._eventsDir);
   }
 
   public get mongoURI(): string {

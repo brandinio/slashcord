@@ -1,22 +1,28 @@
 import { Client } from "discord.js";
 import fs from "fs";
 import path from "path";
+
 import { Slashcord } from "..";
 import Command from "../extras/Command";
 import Interaction from "../extras/Interaction";
+import Slasherror from "../extras/SlashError";
 import getFiles from "../utils/getFiles";
 
 class CommandHandler {
   private commands: Map<string, Command> = new Map();
   constructor(handler: Slashcord, client: Client, dir: string) {
+    const newDir = path.isAbsolute(dir)
+      ? dir
+      : path.join(require.main!.path, dir);
+
     // Checking if the directory exists.
-    if (!fs.existsSync(dir)) {
-      throw new Error(
+    if (!fs.existsSync(newDir)) {
+      throw new Slasherror(
         `Slashcord >> The commands directory: "${dir}" does not exist!`
       );
     }
 
-    const files = getFiles(dir);
+    const files = getFiles(newDir);
     const amount = files.length;
     if (amount < 0) return;
 
@@ -27,13 +33,13 @@ class CommandHandler {
       const { name = fileName, description, options, testOnly } = command;
 
       if (!description) {
-        throw new Error(
+        throw new Slasherror(
           `Slashcord >> A description is required for the command: "${name}" since they are required in slash commands.`
         );
       }
 
       if (testOnly && !handler.testServers.length) {
-        throw new Error(`
+        throw new Slasherror(`
           Slashcord >> You specified "${name}" with the "testOnly" feature, yet there aren't test servers!
         `);
       }
