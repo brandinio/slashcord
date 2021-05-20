@@ -1,0 +1,32 @@
+{
+  "name": "slashcord",
+  "version": "1.0.6",
+  "description": "A simple to use command handler that was made specifically for slash commands, which features that any developer can use!",
+  "main": "lib/index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/MysticIsSus/slashcord"
+  },
+  "keywords": [
+    "discord.js",
+    "slash-commands",
+    "handler",
+    "command-handler"
+  ],
+  "author": "Mystic",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/MysticIsSus/slashcord/issues"
+  },
+  "homepage": "https://slashcord.gitbook.io/slashcord/",
+  "dependencies": {
+    "@types/ws": "^7.4.4",
+    "axios": "^0.21.1",
+    "discord-api-types": "^0.18.1",
+    "discord.js": "^12.5.3",
+    "mongoose": "^5.12.10"
+  }
+}
