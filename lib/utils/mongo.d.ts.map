@@ -1,1 +1,5 @@
+<<<<<<< HEAD
 {"version":3,"file":"mongo.d.ts","sourceRoot":"","sources":["../../src/utils/mongo.ts"],"names":[],"mappings":""}
+=======
+{"version":3,"file":"mongo.d.ts","sourceRoot":"","sources":["../../src/utils/mongo.ts"],"names":[],"mappings":"AAWA,QAAA,MAAM,KAAK,cACI,MAAM,kBAQpB,CAAA;AAED,eAAe,KAAK,CAAA"}
+>>>>>>> 4b53d37302ff9a45b8866c612da5350750b7136a

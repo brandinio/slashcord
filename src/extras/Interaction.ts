@@ -1,6 +1,11 @@
+<<<<<<< HEAD
 import axios from "axios";
 import { Channel, Client, Guild, GuildMember, WebhookClient } from "discord.js";
 
+=======
+import { Client, WebhookClient, GuildMember, DiscordAPIError, Guild, Channel, TextChannel } from "discord.js";
+import axios from "axios";
+>>>>>>> 4b53d37302ff9a45b8866c612da5350750b7136a
 type Options = {
   tts?: boolean;
   type?: number;
@@ -12,13 +17,20 @@ type InteractionOpts = {
   reply(content: any, options?: Options): any;
   delete(): any;
   acknowledge(): any;
+<<<<<<< HEAD
   followUp(content: any): any;
+=======
+>>>>>>> 4b53d37302ff9a45b8866c612da5350750b7136a
   client: Client;
   type: number;
   token: string;
   member: GuildMember;
   id: string;
+<<<<<<< HEAD
   guild: Guild;
+=======
+  guild: Guild
+>>>>>>> 4b53d37302ff9a45b8866c612da5350750b7136a
   data: {
     options: [
       {
@@ -29,6 +41,7 @@ type InteractionOpts = {
     name: string;
     id: string;
   };
+<<<<<<< HEAD
   channel: Channel;
 };
 
@@ -44,6 +57,21 @@ interface Interaction {
   member: GuildMember;
   id: string;
   guild: Guild;
+=======
+  channel: TextChannel
+};
+
+interface Interaction {
+  reply(content: any, options?: Options): any;
+  delete(): any;
+  acknowledge(): any;
+  client: Client;
+  type: number;
+  token: string;
+  member: GuildMember
+  id: string;
+  guild: Guild
+>>>>>>> 4b53d37302ff9a45b8866c612da5350750b7136a
   data: {
     options: [
       {
