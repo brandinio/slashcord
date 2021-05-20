@@ -13,6 +13,7 @@ class EventHandler {
   constructor(client: Client, handler: Slashcord, dir: string) {
     this._client = client;
     this._handler = handler;
+    if (!dir) return;
 
     const newDir = path.isAbsolute(dir)
       ? dir
