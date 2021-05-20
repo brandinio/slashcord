@@ -4,6 +4,8 @@ import EventHandler from "./classes/EventHandler";
 import SlashCmds from "./classes/SlashCommands";
 
 import Command from "./extras/Command";
+import mongo from "./utils/mongo";
+
 class Slashcord {
   private _client!: Client;
   private _commandsDir = "commands";
@@ -42,6 +44,14 @@ class Slashcord {
     this._slashCmds = new SlashCmds(this, client);
     this._commandHandler = new CommandHandler(this, client, this._commandsDir);
     this._eventHandler = new EventHandler(client, this, this._eventsDir);
+
+    if (this._mongoURI) {
+      setTimeout(() => {
+        (async () => {
+          await mongo(this._mongoURI);
+        })();
+      }, 1000);
+    }
   }
 
   public get mongoURI(): string {

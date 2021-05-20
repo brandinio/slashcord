@@ -1,7 +1,7 @@
-import fs from "fs";
+import { readdirSync } from "fs";
 
 function getFiles(dir: string) {
-  const files = fs.readdirSync(dir, {
+  const files = readdirSync(dir, {
     withFileTypes: true,
   });
 
