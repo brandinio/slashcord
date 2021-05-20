@@ -17,9 +17,7 @@ class CommandHandler {
 
     // Checking if the directory exists.
     if (!fs.existsSync(newDir)) {
-      throw new Slasherror(
-        `Slashcord >> The commands directory: "${dir}" does not exist!`
-      );
+      throw new Slasherror(`The commands directory: "${dir}" does not exist!`);
     }
 
     const files = getFiles(newDir);
@@ -34,13 +32,13 @@ class CommandHandler {
 
       if (!description) {
         throw new Slasherror(
-          `Slashcord >> A description is required for the command: "${name}" since they are required in slash commands.`
+          `A description is required for the command: "${name}" since they are required in slash commands.`
         );
       }
 
       if (testOnly && !handler.testServers.length) {
         throw new Slasherror(`
-          Slashcord >> You specified "${name}" with the "testOnly" feature, yet there aren't test servers!
+          You specified "${name}" with the "testOnly" feature, yet there aren't test servers!
         `);
       }
 
