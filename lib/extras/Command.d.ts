@@ -4,6 +4,7 @@ declare type CommandOpts = {
     name: string;
     description: string;
     options: [Options];
+    testOnly: boolean;
     execute: ({ client, interaction, args, }: {
         client: Client;
         interaction: Interaction;
@@ -14,6 +15,7 @@ interface Command {
     name: string;
     description: string;
     options: [Options];
+    testOnly: boolean;
     execute: ({ client, interaction, args, }: {
         client: Client;
         interaction: Interaction;
@@ -27,7 +29,7 @@ declare type Options = {
     required: boolean;
 };
 declare class Command {
-    constructor({ name, execute, description, options }: CommandOpts);
+    constructor({ name, execute, description, options, testOnly }: CommandOpts);
 }
 export { CommandOpts };
 export default Command;
