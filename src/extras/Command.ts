@@ -5,6 +5,7 @@ type CommandOpts = {
   name: string;
   description: string;
   options: [Options];
+  testOnly: boolean;
   execute: ({
     client,
     interaction,
@@ -20,6 +21,7 @@ interface Command {
   name: string;
   description: string;
   options: [Options];
+  testOnly: boolean;
   execute: ({
     client,
     interaction,
@@ -39,9 +41,10 @@ type Options = {
 };
 
 class Command {
-  constructor({ name, execute, description, options }: CommandOpts) {
+  constructor({ name, execute, description, options, testOnly }: CommandOpts) {
     this.name = name;
     this.description = description;
+    this.testOnly = testOnly;
     this.options = options;
     this.execute = execute;
   }
