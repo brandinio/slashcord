@@ -1,11 +1,10 @@
-import { Client } from "discord.js";
+import { Channel, Client, Guild, GuildMember, MessageEmbed } from "discord.js";
 import Interaction from "./Interaction";
 
 type CommandOpts = {
   name: string;
   description: string;
   options: [Options];
-  testOnly?: boolean;
   execute: ({
     client,
     interaction,
@@ -21,7 +20,6 @@ interface Command {
   name: string;
   description: string;
   options: [Options];
-  testOnly?: boolean;
   execute: ({
     client,
     interaction,
@@ -41,14 +39,13 @@ type Options = {
 };
 
 class Command {
-  constructor({ name, execute, description, testOnly, options }: CommandOpts) {
+  constructor({ name, execute, description, options }: CommandOpts) {
     this.name = name;
     this.description = description;
-    this.testOnly = testOnly;
     this.options = options;
     this.execute = execute;
   }
 }
 
-export { CommandOpts };
-export default Command;
+export { CommandOpts }
+export default Command
