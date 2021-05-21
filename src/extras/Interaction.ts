@@ -1,5 +1,12 @@
 import axios from "axios";
-import { Channel, Client, Guild, GuildMember, WebhookClient } from "discord.js";
+import {
+  Channel,
+  Client,
+  Guild,
+  GuildMember,
+  MessageEmbed,
+  WebhookClient,
+} from "discord.js";
 
 type Options = {
   tts?: boolean;
@@ -74,7 +81,7 @@ class Interaction {
     this.id = interaction.id;
     this.guild = this.client.guilds.cache.get(interaction.guild_id)!;
     this.channel = this.guild.channels.cache.get(interaction.channel_id)!;
-    this.member = this.guild.members.cache.get(interaction.member.user.id)!;
+    // this.member = this.guild.members.cache.get(interaction.member.user.id)!;
   }
   async reply(response: any, options?: Options) {
     if (!response) {
@@ -140,6 +147,12 @@ class Interaction {
 
   async followUp(content: any) {
     new WebhookClient(this.client.user!.id, this.token).send(content);
+  }
+
+  async fetchReply() {
+    //@ts-ignore
+    const msg = await this.channel.messages.fetch(this.id);
+    console.log(msg);
   }
 }
 

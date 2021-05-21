@@ -25,8 +25,10 @@ class EventHandler {
 
     const files = getFiles(newDir);
     const amount = files.length;
-    if (amount < 0) return;
-    console.log(`Slashcord >> Loaded ${amount} event(s)`);
+    if (amount === 0) return;
+    console.log(
+      `Slashcord >> Loaded ${amount} event${files.length === 1 ? "" : "s"}!`
+    );
 
     (async () => {
       for (const [file, fileName] of files) {

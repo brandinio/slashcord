@@ -24,7 +24,9 @@ class CommandHandler {
     const amount = files.length;
     if (amount < 0) return;
 
-    console.log(`Slashcord >> Loaded ${amount} command(s)`);
+    console.log(
+      `Slashcord >> Loaded ${amount} command${files.length === 1 ? "" : "s"}!`
+    );
 
     for (const [file, fileName] of files) {
       const command = require(file);
@@ -36,7 +38,7 @@ class CommandHandler {
         );
       }
 
-      if (testOnly && !handler.testServers.length) {
+      if (testOnly && !handler.testServers) {
         throw new Slasherror(`
           You specified "${name}" with the "testOnly" feature, yet there aren't test servers!
         `);
@@ -63,14 +65,14 @@ class CommandHandler {
     }
 
     //@ts-ignore
-    client.ws.on("INTERACTION_CREATE", (interaction) => {
+    client.ws.on("INTERACTION_CREATE", async (interaction) => {
       const { name, options } = interaction.data;
       const cmdName = name.toLowerCase();
 
       const command = this.commands.get(cmdName);
       // if (!command) return;
 
-      interaction = new Interaction(interaction, { client });
+      interaction = new Interaction(await interaction, { client });
 
       try {
         command!.execute({ client, interaction, args: options });
