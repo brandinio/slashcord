@@ -47,5 +47,5 @@ class Command {
   }
 }
 
-export { CommandOpts }
-export default Command
+export { CommandOpts };
+export default Command;
