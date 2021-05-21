@@ -7,6 +7,7 @@ import {
   MessageEmbed,
   WebhookClient,
 } from "discord.js";
+import { SlashDiscordAPI } from "../utils/api";
 
 type Options = {
   tts?: boolean;
@@ -77,11 +78,25 @@ class Interaction {
     options: { client: Client }
   ) {
     this.client = options.client;
+    const memberFunc = () => {
+      return new SlashDiscordAPI(this.client)
+        .getMemberData(interaction.guild_id, interaction.member.user.id)
+        .then((a) => {
+          return a;
+        });
+    };
+    const member = memberFunc();
+    this.guild = this.client.guilds.cache.get(interaction.guild_id)!;
+    //@ts-ignore
     this.token = interaction.token;
     this.id = interaction.id;
     this.guild = this.client.guilds.cache.get(interaction.guild_id)!;
     this.channel = this.guild.channels.cache.get(interaction.channel_id)!;
-    // this.member = this.guild.members.cache.get(interaction.member.user.id)!;
+    (async () => {
+      //@ts-ignore
+      this.member = this.guild.members.cache.get(await member.user.id);
+    })();
+    console.log(this.member);
   }
   async reply(response: any, options?: Options) {
     if (!response) {
