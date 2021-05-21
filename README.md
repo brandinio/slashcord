@@ -1,6 +1,6 @@
 ![Slashcord](./img/downloa.png)
 
-# Slashcord
+# Slashcord!
 
 📌
 A simple to use command handler that was made specifically
