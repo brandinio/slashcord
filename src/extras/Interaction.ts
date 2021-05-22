@@ -89,24 +89,26 @@ class Interaction {
     if (!response) {
       throw new Slasherror(`Cannot send an empty message.`);
     }
-
     let data = {
       content: response,
+      flags: undefined,
     };
+
     if (typeof response === "object") {
       const shit = new MessageEmbed(response);
       //@ts-ignore
       data = await new SlashDiscordAPI(this.client).APIMsg(this.channel, shit);
     }
+    //@ts-ignore
+    data.flags = options?.flags || 1;
 
     //@ts-ignore
     this.client.api.interactions(this.id, this.token).callback.post({
       data: {
-        type: options?.type ?? 4,
-        embeds: [options?.embeds] ?? [],
-        flags: options?.flags ?? 4,
+        type: options?.type || 4,
+        embeds: [options?.embeds] || [],
         data,
-        tts: options?.tts ?? false,
+        tts: options?.tts || false,
       },
     });
   }
@@ -121,6 +123,7 @@ class Interaction {
 
   async delete() {
     return (
+      //@ts-ignore
       this.client.api
         //@ts-ignore
         .webhooks(this.client.user?.id, this.token)
@@ -131,7 +134,7 @@ class Interaction {
 
   async edit(content: any) {
     if (!content) {
-      throw new Error(`Slashcord >> Cannot send an empty message.`);
+      throw new Slasherror(`Slashcord >> Cannot send an empty message.`);
     }
 
     const data = {
