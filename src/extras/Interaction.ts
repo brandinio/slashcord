@@ -7,7 +7,9 @@ import {
   MessageEmbed,
   WebhookClient,
 } from "discord.js";
+import SlashCmds from "../classes/SlashCommands";
 import { SlashDiscordAPI } from "../utils/api";
+import Slasherror from "./SlashError";
 
 type Options = {
   tts?: boolean;
@@ -85,12 +87,17 @@ class Interaction {
   }
   async reply(response: any, options?: Options) {
     if (!response) {
-      throw new Error(`Slashcord >> Cannot send an empty message.`);
+      throw new Slasherror(`Cannot send an empty message.`);
     }
 
     let data = {
       content: response,
     };
+    if (typeof response === "object") {
+      const shit = new MessageEmbed(response);
+      //@ts-ignore
+      data = await new SlashDiscordAPI(this.client).APIMsg(this.channel, shit);
+    }
 
     //@ts-ignore
     this.client.api.interactions(this.id, this.token).callback.post({

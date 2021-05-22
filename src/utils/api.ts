@@ -1,5 +1,6 @@
-import axios from "axios"
-import { Client, RoleData } from "discord.js"
+import axios from "axios";
+import { APIMessage, Channel, Client, RoleData } from "discord.js";
+import Interaction from "../extras/Interaction";
 
 // type RawMemberData = {
 //     user: {
@@ -29,17 +30,31 @@ import { Client, RoleData } from "discord.js"
 // }
 
 class SlashDiscordAPI {
-    client: Client
-    constructor(client: Client) { this.client = client }
-    getMemberData(guildId: string, memberId: string){
-        return axios.get(`https://discord.com/api/v8/guilds/${guildId}/members/${memberId}`, {
-            headers: {
-                'Authorization': `Bot ${this.client.token}`
-            }
-        }).then(response => {
-            return response.data
-        })
-    }
+  client: Client;
+  constructor(client: Client) {
+    this.client = client;
+  }
+  getMemberData(guildId: string, memberId: string) {
+    return axios
+      .get(`https://discord.com/api/v8/guilds/${guildId}/members/${memberId}`, {
+        headers: {
+          Authorization: `Bot ${this.client.token}`,
+        },
+      })
+      .then((response) => {
+        return response.data;
+      });
+  }
+  public async APIMsg(channel: Channel, content: any) {
+    const { data, files } = await APIMessage.create(
+      //@ts-ignore
+      this.client.channels.resolve(channel.id),
+      content
+    )
+      .resolveData()
+      .resolveFiles();
+    return { ...data, files };
+  }
 }
 
-export { SlashDiscordAPI }
+export { SlashDiscordAPI };
