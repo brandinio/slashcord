@@ -21,56 +21,54 @@ class CommandHandler {
     }
     const files = getFiles(newDir);
     const amount = files.length;
-    if (amount < 0) return
+    if (amount < 0) return;
     console.log(
       `Slashcord >> Loaded ${amount} command${files.length === 1 ? "" : "s"}!`
     );
 
     for (const [file, fileName] of files) {
       (async () => {
-        const command = require(file).default || require(file)
+        const command =
+          require(file).default ||
+          require(file) ||
+          (await import(file)).default;
         const { name = fileName, description, options, testOnly } = command;
 
-      if(!command) return;
+        if (!description) {
+          throw new Slasherror(
+            `A description is required for the command: "${name}" since they are required in slash commands.`
+          );
+        }
 
-      if (!description) {
-        throw new Slasherror(
-          `A description is required for the command: "${name}" since they are required in slash commands.`
-        );
-      }
-
-      if (testOnly && !handler.testServers) {
-        throw new Slasherror(`
+        if (testOnly && !handler.testServers) {
+          throw new Slasherror(`
           You specified "${name}" with the "testOnly" feature, yet there aren't test servers!
         `);
-      }
+        }
 
-      if (testOnly) {
-        for (const server of handler.testServers) {
+        if (testOnly) {
+          for (const server of handler.testServers) {
+            (async () => {
+              await handler.slashCommands.create(
+                name,
+                description,
+                options,
+                server
+              );
+              this.commands.set(name, command);
+            })();
+          }
+        } else {
           (async () => {
-            await handler.slashCommands.create(
-              name,
-              description,
-              options,
-              server
-            );
+            await handler.slashCommands.create(name, description, options);
             this.commands.set(name, command);
           })();
         }
-      } else {
-        (async () => {
-          await handler.slashCommands.create(name, description, options);
-          this.commands.set(name, command);
-        })();
-      }
-      })()
-      
-      
+      })();
     }
 
     //@ts-ignore
     client.ws.on("INTERACTION_CREATE", async (interaction) => {
-      
       const { name, options } = interaction.data;
       const cmdName = name.toLowerCase();
 
