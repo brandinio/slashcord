@@ -12,9 +12,7 @@ function getFiles(dir: string) {
     if (file.isDirectory()) {
       allFiles = [...allFiles, ...getFiles(`${dir}/${file.name}`)];
     } else if (
-      file.name.endsWith(
-        ".js" || file.name.endsWith(".ts") || !file.name.endsWith("d.ts")
-      )
+      file.name.endsWith(".js") || file.name.endsWith(".ts") || !file.name.endsWith("d.ts")
     ) {
       // Getting the file name.
       let fileName: string | string[] = file.name

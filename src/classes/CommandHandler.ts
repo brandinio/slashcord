@@ -19,22 +19,19 @@ class CommandHandler {
     if (!fs.existsSync(newDir)) {
       throw new Slasherror(`The commands directory: "${dir}" does not exist!`);
     }
-
     const files = getFiles(newDir);
     const amount = files.length;
     if (amount < 0) return
-
     console.log(
       `Slashcord >> Loaded ${amount} command${files.length === 1 ? "" : "s"}!`
     );
 
     for (const [file, fileName] of files) {
       (async () => {
-        //@ts-ignore
         const command = require(file).default || require(file)
         const { name = fileName, description, options, testOnly } = command;
 
-      if(!command) 
+      if(!command) return;
 
       if (!description) {
         throw new Slasherror(
