@@ -1,5 +1,5 @@
 import { Client } from "discord.js";
-import { Slashcord } from "..";
+import Slashcord from "..";
 declare class EventHandler {
     private _events;
     private _client;

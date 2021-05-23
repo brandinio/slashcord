@@ -1,5 +1,5 @@
 import { Client } from "discord.js";
-import { Slashcord } from "..";
+import Slashcord from "..";
 declare class SlashCmds {
     private _client;
     private _handler;

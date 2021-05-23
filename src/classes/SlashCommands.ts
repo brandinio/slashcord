@@ -1,5 +1,5 @@
 import { APIMessage, Client } from "discord.js";
-import { Slashcord } from "..";
+import Slashcord from "..";
 import Interaction from "../extras/Interaction";
 class SlashCmds {
   private _client: Client;
