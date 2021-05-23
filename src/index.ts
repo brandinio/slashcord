@@ -76,6 +76,5 @@ class Slashcord {
     return this._testServers;
   }
 }
-
+export default Slashcord
 export { Command };
-export default Slashcord;
