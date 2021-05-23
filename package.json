@@ -1,6 +1,6 @@
 {
   "name": "slashcord",
-  "version": "1.1.8",
+  "version": "1.2.0",
   "description": "A simple to use command handler that was made specifically for slash commands, which features that any developer can use!",
   "main": "lib/index.js",
   "scripts": {
