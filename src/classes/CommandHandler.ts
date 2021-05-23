@@ -22,7 +22,7 @@ class CommandHandler {
 
     const files = getFiles(newDir);
     const amount = files.length;
-    if (amount < 0) return;
+    if (amount <= 0) return;
 
     console.log(
       `Slashcord >> Loaded ${amount} command${files.length === 1 ? "" : "s"}!`
