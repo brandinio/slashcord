@@ -77,4 +77,5 @@ class Slashcord {
   }
 }
 
-export { Slashcord, Command };
+export { Command };
+export default Slashcord;

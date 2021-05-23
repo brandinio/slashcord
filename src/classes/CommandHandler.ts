@@ -2,7 +2,7 @@ import { Client } from "discord.js";
 import fs from "fs";
 import path from "path";
 
-import { Slashcord } from "..";
+import Slashcord from "..";
 import Command from "../extras/Command";
 import Interaction from "../extras/Interaction";
 import Slasherror from "../extras/SlashError";
@@ -70,7 +70,7 @@ class CommandHandler {
       const cmdName = name.toLowerCase();
 
       const command = this.commands.get(cmdName);
-      // if (!command) return;
+      if (!command) return;
 
       interaction = new Interaction(await interaction, { client });
 

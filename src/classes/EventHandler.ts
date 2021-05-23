@@ -1,5 +1,5 @@
 import { Client } from "discord.js";
-import { Slashcord } from "..";
+import Slashcord from "..";
 
 import fs from "fs";
 import path from "path";
