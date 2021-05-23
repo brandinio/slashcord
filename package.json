@@ -21,7 +21,7 @@
   "bugs": {
     "url": "https://github.com/MysticIsSus/slashcord/issues"
   },
-  "homepage": "https://slashcord.gitbook.io/slashcord/",
+  "homepage": "https://slashcord.gitbook.io/home/",
   "dependencies": {
     "@types/ws": "^7.4.4",
     "axios": "^0.21.1",

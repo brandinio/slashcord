@@ -17,13 +17,13 @@ npm i slashcord
 
 # Usage
 
-**Slashcord** is very simple to use, use the [guide](https://slashcord.gitbook.io/slashcord/) for more info!
+**Slashcord** is very simple to use, use the [guide](https://slashcord.gitbook.io/home/) for more info!
 
 You can use this example to set it up!
 
 ```js
 const { Client } = require("discord.js");
-const { Slashcord } = require("slashcord");
+const { Slashcord } = require("slashcord").default;
 
 // Initiate the client
 const client = new Client();
