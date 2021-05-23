@@ -23,7 +23,7 @@ class CommandHandler {
     const files = getFiles(newDir);
     const amount = files.length;
     if (amount < 0) return;
-    
+
     console.log(
       `Slashcord >> Loaded ${amount} command${files.length === 1 ? "" : "s"}!`
     );
@@ -78,7 +78,7 @@ class CommandHandler {
       const cmdName = name.toLowerCase();
 
       const command = this.commands.get(cmdName);
-      // if (!command) return;
+      if (!command) return;
 
       interaction = new Interaction(await interaction, { client });
 

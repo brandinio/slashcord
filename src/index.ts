@@ -4,6 +4,7 @@ import EventHandler from "./classes/EventHandler";
 import SlashCmds from "./classes/SlashCommands";
 
 import Command from "./extras/Command";
+import Slasherror from "./extras/SlashError";
 import mongo from "./utils/mongo";
 
 class Slashcord {
@@ -24,8 +25,8 @@ class Slashcord {
     testServers?: string[]
   ) {
     if (!client) {
-      throw new Error(
-        `Slashcord >> No Discord.JS client was passed in as the first parameter!`
+      throw new Slasherror(
+        `No Discord.JS client was passed in as the first parameter!`
       );
     }
 
