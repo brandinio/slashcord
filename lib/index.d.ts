@@ -17,6 +17,6 @@ declare class Slashcord {
     get slashCommands(): SlashCmds;
     get testServers(): string[];
 }
-export default Slashcord;
 export { Command };
+export default Slashcord;
 //# sourceMappingURL=index.d.ts.map
