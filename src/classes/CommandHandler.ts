@@ -2,7 +2,7 @@ import { Client } from "discord.js";
 import fs from "fs";
 import path from "path";
 
-import Slashcord from "..";
+import { Slashcord } from "..";
 import Command from "../extras/Command";
 import Interaction from "../extras/Interaction";
 import Slasherror from "../extras/SlashError";
