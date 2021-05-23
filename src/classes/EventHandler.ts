@@ -32,7 +32,10 @@ class EventHandler {
 
     (async () => {
       for (const [file, fileName] of files) {
-        const event = require(file);
+        const event =
+          require(file).default ||
+          require(file) ||
+          (await import(file)).default;
         if (typeof event !== "function") {
           throw new Slasherror(`The file: "${file}" is not a function!`);
         } else event(client);
