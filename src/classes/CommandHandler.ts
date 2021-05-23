@@ -23,14 +23,18 @@ class CommandHandler {
     const files = getFiles(newDir);
     const amount = files.length;
     if (amount < 0) return;
-
+    
     console.log(
       `Slashcord >> Loaded ${amount} command${files.length === 1 ? "" : "s"}!`
     );
 
     for (const [file, fileName] of files) {
-      const command = require(file);
-      const { name = fileName, description, options, testOnly } = command;
+      (async () => {
+        //@ts-ignore
+        const command = require(file).default || require(file)
+        const { name = fileName, description, options, testOnly } = command;
+
+      if(!command) 
 
       if (!description) {
         throw new Slasherror(
@@ -62,10 +66,14 @@ class CommandHandler {
           this.commands.set(name, command);
         })();
       }
+      })()
+      
+      
     }
 
     //@ts-ignore
     client.ws.on("INTERACTION_CREATE", async (interaction) => {
+      
       const { name, options } = interaction.data;
       const cmdName = name.toLowerCase();
 
