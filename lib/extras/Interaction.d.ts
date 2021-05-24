@@ -2,8 +2,9 @@ import { Channel, Client, Guild, GuildMember } from "discord.js";
 declare type Options = {
     tts?: boolean;
     type?: number;
-    embeds?: object;
+    embeds?: object[] | any;
     flags?: number;
+    embed?: object[] | any;
 };
 declare type InteractionOpts = {
     reply(content: any, options?: Options): any;
@@ -27,6 +28,7 @@ declare type InteractionOpts = {
         id: string;
     };
     channel: Channel;
+    application_id: string;
 };
 interface Interaction {
     reply(content: any, options?: Options): Promise<void>;
@@ -51,18 +53,25 @@ interface Interaction {
         id: string;
     };
     channel: Channel;
+    application_id: string;
 }
 declare class Interaction {
     constructor(interaction: {
         type: number;
         token: string;
         id: string;
-        member: any;
         guild_id: string;
         channel_id: string;
+        application_id: string;
+        member: GuildMember;
     }, options: {
         client: Client;
+        member: any;
     });
+    /**
+     *
+     * @example await interaction.reply('Hey!') interaction.edit('hmm..')
+     */
     edit(content: any): Promise<void>;
 }
 export default Interaction;

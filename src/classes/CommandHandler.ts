@@ -1,15 +1,16 @@
-import { Client } from "discord.js";
+import { Client, Collection } from "discord.js";
 import fs from "fs";
 import path from "path";
 
+import ms from "ms";
 import Slashcord from "..";
-import Command from "../extras/Command";
+import Command from "../extras/SlashCommand";
 import Interaction from "../extras/Interaction";
 import Slasherror from "../extras/SlashError";
 import getFiles from "../utils/getFiles";
+import { msToTime } from "../utils/utils";
 
 class CommandHandler {
-  private commands: Map<string, Command> = new Map();
   constructor(handler: Slashcord, client: Client, dir: string) {
     const newDir = path.isAbsolute(dir)
       ? dir
@@ -32,7 +33,13 @@ class CommandHandler {
           require(file).default ||
           require(file) ||
           (await import(file)).default;
-        const { name = fileName, description, options, testOnly } = command;
+        const {
+          name = fileName,
+          description,
+          options,
+          testOnly,
+          category,
+        } = command;
 
         if (!description) {
           throw new Slasherror(
@@ -46,6 +53,18 @@ class CommandHandler {
         `);
         }
 
+        if (category) {
+          let commands = handler.categories.get(category.toLowerCase());
+          if (!commands) commands = [category];
+          commands.push(name);
+          handler.categories.set(category.toLowerCase(), commands);
+        } else {
+          let commands = handler.categories.get("Other");
+          if (!commands) commands = ["Other"];
+          commands.push(name);
+          handler.categories.set("Other", commands);
+        }
+
         if (testOnly) {
           for (const server of handler.testServers) {
             (async () => {
@@ -55,13 +74,13 @@ class CommandHandler {
                 options,
                 server
               );
-              this.commands.set(name, command);
+              handler.commands.set(name, command);
             })();
           }
         } else {
           (async () => {
             await handler.slashCommands.create(name, description, options);
-            this.commands.set(name, command);
+            handler.commands.set(name, command);
           })();
         }
       })();
@@ -72,13 +91,35 @@ class CommandHandler {
       const { name, options } = interaction.data;
       const cmdName = name.toLowerCase();
 
-      const command = this.commands.get(cmdName);
+      const command = handler.commands.get(cmdName);
       if (!command) return;
 
-      interaction = new Interaction(await interaction, { client });
+      const { cooldown } = command;
+      const member = interaction.member;
+      interaction = new Interaction(interaction, { client, member });
 
+      if (!handler.cooldowns.has(command.name)) {
+        handler.cooldowns.set(command.name, new Collection());
+      }
+
+      const now = Date.now();
+      const timeStamp = handler.cooldowns.get(command.name);
+      const amount = ms(cooldown?.toString() || "1s");
+
+      if (timeStamp.has(interaction.member.user.id)) {
+        const timeLeft = timeStamp.get(interaction.member.user.id) + amount;
+        if (now < timeLeft)
+          return interaction.reply(
+            `Slow down! You still have \`${msToTime(
+              timeLeft - now
+            )}\` before using that command again!`
+          );
+      }
+
+      timeStamp.set(interaction.member.user.id, now);
+      setTimeout(() => timeStamp.delete(interaction.member.user.id), amount);
       try {
-        command!.execute({ client, interaction, args: options });
+        command!.execute({ client, interaction, args: options, handler });
       } catch (err) {
         console.log(
           `Slashcord >> Error running the command: "${command!.name}":`,

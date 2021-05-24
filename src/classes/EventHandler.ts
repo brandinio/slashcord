@@ -36,8 +36,9 @@ class EventHandler {
           require(file).default ||
           require(file) ||
           (await import(file)).default;
+
         if (typeof event !== "function") {
-          throw new Slasherror(`The file: "${file}" is not a function!`);
+          throw new Slasherror(`The file: "${fileName}" is not a function!`);
         } else event(client);
       }
     })();

@@ -1,4 +1,4 @@
-![Slashcord](./img/downloa.png)
+![Slashcord](./src/utils/download.png)
 
 # Slashcord!
 

@@ -4,6 +4,7 @@ import {
   Client,
   Guild,
   GuildMember,
+  Message,
   MessageEmbed,
   WebhookClient,
 } from "discord.js";
@@ -14,8 +15,9 @@ import Slasherror from "./SlashError";
 type Options = {
   tts?: boolean;
   type?: number;
-  embeds?: object;
+  embeds?: object[] | any;
   flags?: number;
+  embed?: object[] | any;
 };
 
 type InteractionOpts = {
@@ -40,6 +42,7 @@ type InteractionOpts = {
     id: string;
   };
   channel: Channel;
+  application_id: string;
 };
 
 interface Interaction {
@@ -65,6 +68,7 @@ interface Interaction {
     id: string;
   };
   channel: Channel;
+  application_id: string;
 }
 
 class Interaction {
@@ -73,25 +77,35 @@ class Interaction {
       type: number;
       token: string;
       id: string;
-      member: any;
       guild_id: string;
       channel_id: string;
+      application_id: string;
+      member: GuildMember;
     },
-    options: { client: Client }
+    options: { client: Client; member: any }
   ) {
     this.client = options.client;
     this.token = interaction.token;
+    this.application_id = interaction.application_id;
     this.id = interaction.id;
     this.guild = this.client.guilds.cache.get(interaction.guild_id)!;
     this.channel = this.guild.channels.cache.get(interaction.channel_id)!;
+    //@ts-ignore
+    this.member = this.guild.members.add(options.member);
   }
+  /**
+   * Responding to the interaction, with ease.
+   * @example interaction.reply('Hey!')
+   */
   async reply(response: any, options?: Options) {
     if (!response) {
       throw new Slasherror(`Cannot send an empty message.`);
     }
     let data = {
       content: response,
-      flags: undefined,
+      flags: 1,
+      tts: false,
+      embeds: undefined,
     };
 
     if (typeof response === "object") {
@@ -99,19 +113,26 @@ class Interaction {
       //@ts-ignore
       data = await new SlashDiscordAPI(this.client).APIMsg(this.channel, shit);
     }
-    //@ts-ignore
-    data.flags = options?.flags || 1;
+    data.flags = options?.flags! || 1;
+    data.tts = options?.tts || false;
+    if (options?.embeds!) {
+      //@ts-ignore
+      data.embeds = [options?.embeds];
+    }
 
     //@ts-ignore
     this.client.api.interactions(this.id, this.token).callback.post({
       data: {
         type: options?.type || 4,
-        embeds: [options?.embeds] || [],
         data,
-        tts: options?.tts || false,
       },
     });
   }
+  /**
+   * Respond but your actually thinking about how to respond.
+   * NOTE: you must edit your response.
+   * @example interaction.acknowledge()
+   */
   async acknowledge() {
     //@ts-ignore
     this.client.api.interactions(this.id, this.token).callback.post({
@@ -121,6 +142,10 @@ class Interaction {
     });
   }
 
+  /**
+   * Deleting your response, there has to be a existing interaction.
+   * @example interaction.delete()
+   */
   async delete() {
     return (
       //@ts-ignore
@@ -132,6 +157,10 @@ class Interaction {
     );
   }
 
+  /**
+   *
+   * @example await interaction.reply('Hey!') interaction.edit('hmm..')
+   */
   async edit(content: any) {
     if (!content) {
       throw new Slasherror(`Slashcord >> Cannot send an empty message.`);
@@ -155,14 +184,31 @@ class Interaction {
     );
   }
 
+  /**
+   * Following up with another message! Cool!
+   * @example await interaction.reply('Hey!') interaction.followUp('hm...')
+   */
   async followUp(content: any) {
     new WebhookClient(this.client.user!.id, this.token).send(content);
   }
 
+  /**
+   * Fetching the response you sent, you can react, etc.
+   * @example await interaction.reply('Hmm!') const msg = await interaction.fetchReply() msg.react('😂')
+   */
   async fetchReply() {
+    const res = await axios.get(
+      `https://discord.com/api/v8/webhooks/${this.application_id}/${this.token}/messages/@original`,
+      {
+        headers: {
+          Authorization: `Bot ${this.client.token}`,
+          "Content-Type": "application/json",
+        },
+      }
+    );
     //@ts-ignore
-    const msg = await this.channel.messages.fetch(this.id);
-    console.log(msg);
+    const msg = (await this.channel.messages.fetch(res.data.id)) as Message;
+    return msg;
   }
 }
 

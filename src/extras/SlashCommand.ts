@@ -1,11 +1,14 @@
 import { Channel, Client, Guild, GuildMember, MessageEmbed } from "discord.js";
+import Slashcord from "..";
 import Interaction from "./Interaction";
 
 type CommandOpts = {
   name: string;
+  category?: string;
   description: string;
   options: [Options];
-  testOnly: boolean;
+  testOnly?: boolean;
+  cooldown?: string | number;
   execute: ({
     client,
     interaction,
@@ -19,17 +22,21 @@ type CommandOpts = {
 
 interface Command {
   name: string;
+  category?: string;
   description: string;
   options: [Options];
-  testOnly: boolean;
+  cooldown?: string | number;
+  testOnly?: boolean;
   execute: ({
     client,
     interaction,
     args,
+    handler,
   }: {
     client: Client;
     interaction: Interaction;
     args: any;
+    handler: Slashcord;
   }) => any;
 }
 
@@ -38,15 +45,31 @@ type Options = {
   description: string;
   type: 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9;
   required: boolean;
+  choices?: [
+    {
+      name: string;
+      value: string;
+    }
+  ];
 };
 
 class Command {
-  constructor({ name, execute, description, options, testOnly }: CommandOpts) {
+  constructor({
+    name,
+    execute,
+    description,
+    category,
+    options,
+    testOnly,
+    cooldown,
+  }: CommandOpts) {
     this.name = name;
     this.description = description;
+    this.cooldown = cooldown;
     this.testOnly = testOnly;
     this.options = options;
     this.execute = execute;
+    this.category = category;
   }
 }
 

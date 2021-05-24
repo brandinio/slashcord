@@ -23,10 +23,12 @@
   },
   "homepage": "https://slashcord.gitbook.io/home/",
   "dependencies": {
+    "@types/ms": "^0.7.31",
     "@types/ws": "^7.4.4",
     "axios": "^0.21.1",
     "discord-api-types": "^0.18.1",
     "discord.js": "^12.5.3",
-    "mongoose": "^5.12.10"
+    "mongoose": "^5.12.10",
+    "ms": "^2.1.3"
   }
 }

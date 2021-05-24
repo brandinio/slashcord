@@ -3,6 +3,7 @@ import Slashcord from "..";
 import Interaction from "./Interaction";
 declare type CommandOpts = {
     name: string;
+    category?: string;
     description: string;
     options: [Options];
     testOnly?: boolean;
@@ -15,6 +16,7 @@ declare type CommandOpts = {
 };
 interface Command {
     name: string;
+    category?: string;
     description: string;
     options: [Options];
     cooldown?: string | number;
@@ -39,8 +41,8 @@ declare type Options = {
     ];
 };
 declare class Command {
-    constructor({ name, execute, description, options, testOnly, cooldown, }: CommandOpts);
+    constructor({ name, execute, description, category, options, testOnly, cooldown, }: CommandOpts);
 }
 export { CommandOpts };
 export default Command;
-//# sourceMappingURL=Command.d.ts.map
+//# sourceMappingURL=SlashCommand.d.ts.map

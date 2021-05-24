@@ -1,6 +1,7 @@
-import { Client } from "discord.js";
+import { Client, Collection } from "discord.js";
 import SlashCmds from "./classes/SlashCommands";
-import Command from "./extras/Command";
+import SlashcordOptions from "./extras/SlashcordOptions";
+import Command from "./extras/SlashCommand";
 declare class Slashcord {
     private _client;
     private _commandsDir;
@@ -10,11 +11,17 @@ declare class Slashcord {
     private _commandHandler;
     private _eventHandler;
     private _slashCmds;
-    constructor(client: Client, commandsDir?: string, eventsDir?: string, testServers?: string[]);
+    private _commands;
+    private _categories;
+    private _cooldowns;
+    constructor(client: Client, options: SlashcordOptions);
     get mongoURI(): string;
-    setMongoPath(mongoURI?: string): Slashcord;
+    setMongoPath(mongoURI: string): Slashcord;
     get client(): Client;
+    get commands(): Collection<string, Command>;
+    get cooldowns(): Collection<string, any>;
     get slashCommands(): SlashCmds;
+    get categories(): Collection<string, any>;
     get testServers(): string[];
 }
 export default Slashcord;
