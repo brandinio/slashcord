@@ -1,7 +1,10 @@
-<center>
-  <a href="https://npmjs.com/package/slashcord"><img src="https://img.shields.io/npm/dt/slashcord.svg?maxAge=3600"> </img></a>
-</center>
+
+
 ![Slashcord](./img/downloa.png)
+<br>
+<br>
+<a href="https://npmjs.com/package/slashcord"><img src="https://img.shields.io/npm/dt/slashcord.svg?maxAge=3600"> </img></a>
+
 
 # Slashcord!
 
