@@ -1,9 +1,9 @@
 ![Slashcord](./src/utils/download.png)
 <br>
 <br>
-<a href="https://npmjs.com/package/slashcord"><img src="https://img.shields.io/npm/dt/slashcord.svg?maxAge=3600"> </img></a>
-<a href="https://npmjs.com/package/slashcord"><img src="https://img.shields.io/npm/v/slashcord.svg"> </img></a>
-<a href="https://discord.gg/36nFHPmRqk"> <img src="https://img.shields.io/discord/816799011277242398?color=7289da&logo=discord&logoColor=white"/> </a>
+<a href="https://npmjs.com/package/slashcord"><img src="https://img.shields.io/npm/dt/slashcord.svg?style=for-the-badge&color=red"> </img></a>
+<a href="https://npmjs.com/package/slashcord"><img src="https://img.shields.io/npm/v/slashcord.svg?style=for-the-badge&logo=npm"> </img></a>
+<a href="https://discord.gg/36nFHPmRqk"> <img src="https://img.shields.io/discord/816799011277242398?style=for-the-badge&logo=discord&color=blue"/> </a>
 
 # Slashcord!
 
