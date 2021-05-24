@@ -34,7 +34,11 @@ const { Slashcord } = require("slashcord").default;
 const client = new Client();
 
 client.on("ready", () => {
-  new Slashcord(client);
+  new Slashcord(client, {
+    commandsDir: "./commands",
+    eventsDir: "./events",
+    testServers: ["id"],
+  });
 });
 
 // Get your token at discord.com/developers/applications
