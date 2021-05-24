@@ -5,7 +5,7 @@
 <br>
 <a href="https://npmjs.com/package/slashcord"><img src="https://img.shields.io/npm/dt/slashcord.svg?maxAge=3600"> </img></a>
 <a href="https://npmjs.com/package/slashcord"><img src="https://img.shields.io/npm/v/slashcord.svg"> </img></a>
-<a href="https://discord.gg/36nFHPmRqk"> <img src="https://img.shields.io/discord/816799011277242398?color=7289da&logo=discord&logoColor=white" </a>
+<a href="https://discord.gg/36nFHPmRqk"> <img src="https://img.shields.io/discord/816799011277242398?color=7289da&logo=discord&logoColor=white"/> </a>
 
 
 # Slashcord!
