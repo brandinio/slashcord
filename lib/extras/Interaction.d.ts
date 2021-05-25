@@ -33,7 +33,7 @@ declare type InteractionOpts = {
 interface Interaction {
     reply(content: any, options?: Options): Promise<void>;
     delete(): any;
-    acknowledge(): any;
+    acknowledge(): Promise<void>;
     followUp(content: any): any;
     fetchReply(): any;
     client: Client;

@@ -22,7 +22,7 @@ class CommandHandler {
     }
     const files = getFiles(newDir);
     const amount = files.length;
-    if (amount < 0) return;
+    if (amount <= 0) return;
     console.log(
       `Slashcord >> Loaded ${amount} command${files.length === 1 ? "" : "s"}!`
     );
@@ -59,10 +59,10 @@ class CommandHandler {
           commands.push(name);
           handler.categories.set(category.toLowerCase(), commands);
         } else {
-          let commands = handler.categories.get("Other");
-          if (!commands) commands = ["Other"];
+          let commands = handler.categories.get("no category");
+          if (!commands) commands = ["No category"];
           commands.push(name);
-          handler.categories.set("Other", commands);
+          handler.categories.set("no category", commands);
         }
 
         if (testOnly) {

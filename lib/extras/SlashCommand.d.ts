@@ -12,6 +12,7 @@ declare type CommandOpts = {
         client: Client;
         interaction: Interaction;
         args: any;
+        handler: Slashcord;
     }) => any;
 };
 interface Command {

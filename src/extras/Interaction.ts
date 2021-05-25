@@ -48,7 +48,7 @@ type InteractionOpts = {
 interface Interaction {
   reply(content: any, options?: Options): Promise<void>;
   delete(): any;
-  acknowledge(): any;
+  acknowledge(): Promise<void>;
   followUp(content: any): any;
   fetchReply(): any;
   client: Client;
@@ -166,9 +166,15 @@ class Interaction {
       throw new Slasherror(`Slashcord >> Cannot send an empty message.`);
     }
 
-    const data = {
+    let data = {
       content: content,
     };
+
+    if (typeof content === "object") {
+      const shit = new MessageEmbed(content);
+      //@ts-ignore
+      data = await new SlashDiscordAPI(this.client).APIMsg(this.channel, shit);
+    }
 
     axios.patch(
       `https://discord.com/api/v8/webhooks/${this.client.user!.id}/${
