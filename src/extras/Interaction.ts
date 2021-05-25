@@ -129,6 +129,27 @@ class Interaction {
     });
   }
   /**
+   * Responding to the interaction with a message only the person who sent it can see
+   * @example interaction.onlyReply("Hey User! Only You Can See This Message. No One Else!")
+   */
+  async onlyReply(response: string) {
+    if(!response) {
+      throw new Slasherror("Cannot send an empty message.")
+    }
+    let data = {
+      content: response,
+      flags: 1 << 6,
+      tts: false,
+    }
+    //@ts-ignore
+    this.client.api.interactions(this.id, this.token).callback.post({
+      data: {
+        type: 4,
+        data
+      }
+    })
+  }
+  /**
    * Respond but your actually thinking about how to respond.
    * NOTE: you must edit your response.
    * @example interaction.acknowledge()
