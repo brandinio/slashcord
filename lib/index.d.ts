@@ -14,6 +14,8 @@ declare class Slashcord {
     private _commands;
     private _categories;
     private _cooldowns;
+    private _disabledCmds;
+    private _testOnly;
     constructor(client: Client, options: SlashcordOptions);
     get mongoURI(): string;
     setMongoPath(mongoURI: string): Slashcord;

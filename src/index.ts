@@ -21,6 +21,8 @@ class Slashcord {
   private _commands: Collection<string, Command> = new Collection();
   private _categories: Collection<string, any> = new Collection();
   private _cooldowns: Collection<string, any> = new Collection();
+  private _disabledCmds: string[] = [];
+  private _testOnly: boolean = false;
 
   constructor(client: Client, options: SlashcordOptions) {
     if (!client) {
@@ -34,6 +36,21 @@ class Slashcord {
     this._eventsDir = options.eventsDir || this._eventsDir;
     this._testServers = options.testServers || this._testServers;
 
+    if (options.defaultCommands) {
+      const { ping, help, testOnly = false } = options.defaultCommands;
+      if (!ping) {
+        const pingCmd = "PING";
+        this._disabledCmds = ["PING"];
+      }
+      if (!help) {
+        const helpCmd = "HELP";
+        //@ts-ignore
+        this._disabledCmds = this._disabledCmds.push(helpCmd);
+      }
+      this._testOnly = testOnly!;
+    }
+    console.log(this._disabledCmds);
+
     if (!options.commandsDir) {
       console.warn(
         `Slashcord >> Cannot find a commands directory, using "./commands"`
@@ -46,7 +63,13 @@ class Slashcord {
     }
 
     this._slashCmds = new SlashCmds(this, client);
-    this._commandHandler = new CommandHandler(this, client, this._commandsDir);
+    this._commandHandler = new CommandHandler(
+      this,
+      client,
+      this._commandsDir,
+      this._disabledCmds,
+      this._testOnly
+    );
     this._eventHandler = new EventHandler(client, this, this._eventsDir);
 
     if (this._mongoURI) {

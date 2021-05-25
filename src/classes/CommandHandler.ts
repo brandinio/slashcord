@@ -11,7 +11,36 @@ import getFiles from "../utils/getFiles";
 import { msToTime } from "../utils/utils";
 
 class CommandHandler {
-  constructor(handler: Slashcord, client: Client, dir: string) {
+  constructor(
+    handler: Slashcord,
+    client: Client,
+    dir: string,
+    disabledCmds: string[],
+    testOnly: boolean
+  ) {
+    for (const [file, fileName] of getFiles(
+      path.join(__dirname, "../commands")
+    )) {
+      if (disabledCmds.includes(fileName)) {
+        continue;
+      }
+      (async () => {
+        const command =
+          require(file).default ||
+          require(file) ||
+          (await import(file)).default;
+
+        const {
+          name = fileName,
+          description,
+          options,
+          testOnly,
+          category,
+        } = command;
+
+        console.log(command);
+      })();
+    }
     const newDir = path.isAbsolute(dir)
       ? dir
       : path.join(require.main!.path, dir);
@@ -20,6 +49,7 @@ class CommandHandler {
     if (!fs.existsSync(newDir)) {
       throw new Slasherror(`The commands directory: "${dir}" does not exist!`);
     }
+
     const files = getFiles(newDir);
     const amount = files.length;
     if (amount <= 0) return;

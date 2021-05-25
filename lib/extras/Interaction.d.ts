@@ -69,6 +69,11 @@ declare class Interaction {
         member: any;
     });
     /**
+     * Responding to the interaction with a message only the person who sent it can see
+     * @example interaction.onlyReply("Hey you, only you can see this 😜!")
+     */
+    onlyReply(response: string, options?: Options): Promise<void>;
+    /**
      *
      * @example await interaction.reply('Hey!') interaction.edit('hmm..')
      */

@@ -12,9 +12,17 @@ interface SlashcordOptions {
    */
   testServers?: string[];
   /**
-   * Providing A Token Logs In For You. Saves Time.
+   * Providing a token logs in for you, saves time.
    */
   token?: string;
-}
 
+  /**
+   * Here you can configure default commands.
+   */
+  defaultCommands?: {
+    testOnly?: boolean;
+    ping?: boolean;
+    help?: boolean;
+  };
+}
 export = SlashcordOptions;

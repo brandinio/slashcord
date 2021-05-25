@@ -130,24 +130,36 @@ class Interaction {
   }
   /**
    * Responding to the interaction with a message only the person who sent it can see
-   * @example interaction.onlyReply("Hey User! Only You Can See This Message. No One Else!")
+   * @example interaction.onlyReply("Hey you, only you can see this 😜!")
    */
-  async onlyReply(response: string) {
-    if(!response) {
-      throw new Slasherror("Cannot send an empty message.")
+  async onlyReply(response: string, options?: Options) {
+    if (!response) {
+      throw new Slasherror("Cannot send an empty message.");
     }
     let data = {
       content: response,
       flags: 1 << 6,
       tts: false,
+      embeds: undefined,
+    };
+
+    if (typeof response === "object") {
+      const shit = new MessageEmbed(response);
+      //@ts-ignore
+      data = await new SlashDiscordAPI(this.client).APIMsg(this.channel, shit);
+    }
+
+    if (options?.embeds!) {
+      //@ts-ignore
+      data.embeds = [options?.embeds];
     }
     //@ts-ignore
     this.client.api.interactions(this.id, this.token).callback.post({
       data: {
         type: 4,
-        data
-      }
-    })
+        data,
+      },
+    });
   }
   /**
    * Respond but your actually thinking about how to respond.
