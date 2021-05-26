@@ -1,3 +1,5 @@
+import { GuildMember, PermissionResolvable } from "discord.js";
 declare function msToTime(ms: number): string;
-export { msToTime };
+declare function missingPermissions(member: GuildMember, perms: PermissionResolvable): string;
+export { msToTime, missingPermissions };
 //# sourceMappingURL=utils.d.ts.map

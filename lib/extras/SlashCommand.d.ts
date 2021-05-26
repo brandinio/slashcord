@@ -1,4 +1,4 @@
-import { Client } from "discord.js";
+import { Client, PermissionString } from "discord.js";
 import Slashcord from "..";
 import Interaction from "./Interaction";
 declare type CommandOpts = {
@@ -8,6 +8,8 @@ declare type CommandOpts = {
     options: [Options];
     testOnly?: boolean;
     cooldown?: string | number;
+    perms?: PermissionString[];
+    botPerms?: PermissionString[];
     execute: ({ client, interaction, args, }: {
         client: Client;
         interaction: Interaction;
@@ -22,6 +24,8 @@ interface Command {
     options: [Options];
     cooldown?: string | number;
     testOnly?: boolean;
+    perms?: PermissionString[];
+    botPerms?: PermissionString[];
     execute: ({ client, interaction, args, handler, }: {
         client: Client;
         interaction: Interaction;
@@ -42,7 +46,7 @@ declare type Options = {
     ];
 };
 declare class Command {
-    constructor({ name, execute, description, category, options, testOnly, cooldown, }: CommandOpts);
+    constructor({ name, execute, description, category, options, testOnly, cooldown, botPerms, perms, }: CommandOpts);
 }
 export { CommandOpts };
 export default Command;

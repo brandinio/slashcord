@@ -12,17 +12,20 @@ interface SlashcordOptions {
    */
   testServers?: string[];
   /**
-   * Providing a token logs in for you, saves time.
+   * Configure the error messages.
+   * @example new Slashcord(client, { commandsDir: "./commands", customMsgs: { cooldownMsg: "Wait {COOLDOWN} before using it again."}})
    */
-  token?: string;
-
-  /**
-   * Here you can configure default commands.
-   */
-  defaultCommands?: {
-    testOnly?: boolean;
-    ping?: boolean;
-    help?: boolean;
+  customMsgs?: {
+    /**
+     * To put the actual cooldown, make sure to put {COOLDOWN} in your message.
+     * @example cooldownMsg: "Wait {COOLDOWN}, aight."
+     */
+    cooldownMsg: string;
+    /**
+     * To put the permissions missing, make sure to put {PERMISSION} in your message.
+     * @example permissionMsg: "I need the {PERMISSION} permission, you know."
+     */
+    permissionMsg: string;
   };
 }
 export = SlashcordOptions;

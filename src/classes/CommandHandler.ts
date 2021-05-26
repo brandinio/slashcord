@@ -8,39 +8,10 @@ import Command from "../extras/SlashCommand";
 import Interaction from "../extras/Interaction";
 import Slasherror from "../extras/SlashError";
 import getFiles from "../utils/getFiles";
-import { msToTime } from "../utils/utils";
+import { missingPermissions, msToTime } from "../utils/utils";
 
 class CommandHandler {
-  constructor(
-    handler: Slashcord,
-    client: Client,
-    dir: string,
-    disabledCmds: string[],
-    testOnly: boolean
-  ) {
-    for (const [file, fileName] of getFiles(
-      path.join(__dirname, "../commands")
-    )) {
-      if (disabledCmds.includes(fileName)) {
-        continue;
-      }
-      (async () => {
-        const command =
-          require(file).default ||
-          require(file) ||
-          (await import(file)).default;
-
-        const {
-          name = fileName,
-          description,
-          options,
-          testOnly,
-          category,
-        } = command;
-
-        console.log(command);
-      })();
-    }
+  constructor(handler: Slashcord, client: Client, dir: string) {
     const newDir = path.isAbsolute(dir)
       ? dir
       : path.join(require.main!.path, dir);
@@ -126,7 +97,41 @@ class CommandHandler {
 
       const { cooldown } = command;
       const member = interaction.member;
-      interaction = new Interaction(interaction, { client, member });
+      interaction = new Interaction(interaction, {
+        client,
+        member,
+      }) as Interaction;
+      if (
+        command.perms &&
+        !interaction.channel
+          .permissionsFor(interaction.member.user)
+          .has(command.perms, true)
+      ) {
+        return interaction.reply(
+          handler.permissionMsg?.replace(
+            /{PERMISSION}/g,
+            await missingPermissions(interaction.member, command.perms)
+          ) ||
+            `You need the ${missingPermissions(
+              interaction.member,
+              command.perms
+            )} permission to use that command.`
+        );
+      }
+
+      if (
+        command.botPerms &&
+        !interaction.channel
+          .permissionsFor(interaction.guild.me)
+          .has(command.botPerms, true)
+      ) {
+        return interaction.reply(
+          `I don't have the ${missingPermissions(
+            interaction.guild.me,
+            command.botPerms
+          )} permission.`
+        );
+      }
 
       if (!handler.cooldowns.has(command.name)) {
         handler.cooldowns.set(command.name, new Collection());
@@ -140,14 +145,19 @@ class CommandHandler {
         const timeLeft = timeStamp.get(interaction.member.user.id) + amount;
         if (now < timeLeft)
           return interaction.reply(
-            `Slow down! You still have \`${msToTime(
-              timeLeft - now
-            )}\` before using that command again!`
+            handler.cooldownMsg?.replace(
+              /{COOLDOWN}/g,
+              msToTime(timeLeft - now)
+            ) ||
+              `Slow down, you still have ${msToTime(
+                timeLeft - now
+              )} before using this again!`
           );
       }
 
       timeStamp.set(interaction.member.user.id, now);
       setTimeout(() => timeStamp.delete(interaction.member.user.id), amount);
+
       try {
         command!.execute({ client, interaction, args: options, handler });
       } catch (err) {

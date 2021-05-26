@@ -1,4 +1,11 @@
-import { Channel, Client, Guild, GuildMember, MessageEmbed } from "discord.js";
+import {
+  Channel,
+  Client,
+  Guild,
+  GuildMember,
+  MessageEmbed,
+  PermissionString,
+} from "discord.js";
 import Slashcord from "..";
 import Interaction from "./Interaction";
 
@@ -9,6 +16,8 @@ type CommandOpts = {
   options: [Options];
   testOnly?: boolean;
   cooldown?: string | number;
+  perms?: PermissionString[];
+  botPerms?: PermissionString[];
   execute: ({
     client,
     interaction,
@@ -28,6 +37,8 @@ interface Command {
   options: [Options];
   cooldown?: string | number;
   testOnly?: boolean;
+  perms?: PermissionString[];
+  botPerms?: PermissionString[];
   execute: ({
     client,
     interaction,
@@ -63,6 +74,8 @@ class Command {
     options,
     testOnly,
     cooldown,
+    botPerms,
+    perms,
   }: CommandOpts) {
     this.name = name;
     this.description = description;
@@ -71,6 +84,8 @@ class Command {
     this.options = options;
     this.execute = execute;
     this.category = category;
+    this.botPerms = botPerms;
+    this.perms = perms;
   }
 }
 

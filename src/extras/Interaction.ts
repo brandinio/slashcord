@@ -1,4 +1,4 @@
-import axios from "axios";
+import fetch from "node-fetch";
 import {
   Channel,
   Client,
@@ -11,6 +11,18 @@ import {
 import SlashCmds from "../classes/SlashCommands";
 import { SlashDiscordAPI } from "../utils/api";
 import Slasherror from "./SlashError";
+import axios from "axios";
+
+export enum OptionsType {
+  SUB_COMMAND = 1,
+  SUB_COMMAND_GROUP = 2,
+  STRING = 3,
+  INTEGER = 4,
+  BOOLEAN = 5,
+  USER = 6,
+  CHANNEL = 7,
+  ROLE = 8,
+}
 
 type Options = {
   tts?: boolean;
@@ -236,18 +248,18 @@ class Interaction {
    * @example await interaction.reply('Hmm!') const msg = await interaction.fetchReply() msg.react('😂')
    */
   async fetchReply() {
-    const res = await axios.get(
-      `https://discord.com/api/v8/webhooks/${this.application_id}/${this.token}/messages/@original`,
-      {
-        headers: {
-          Authorization: `Bot ${this.client.token}`,
-          "Content-Type": "application/json",
-        },
-      }
-    );
-    //@ts-ignore
-    const msg = (await this.channel.messages.fetch(res.data.id)) as Message;
-    return msg;
+    // const res = await axios.get(
+    //   `https://discord.com/api/v8/webhooks/${this.application_id}/${this.token}/messages/@original`,
+    //   {
+    //     headers: {
+    //       Authorization: `Bot ${this.client.token}`,
+    //       "Content-Type": "application/json",
+    //     },
+    //   }
+    // );
+    // //@ts-ignore
+    // const msg = (await this.channel.messages.fetch(res.data.id)) as Message;
+    // return msg;
   }
 }
 
