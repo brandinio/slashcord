@@ -28,7 +28,7 @@ You can use this example to set it up!
 
 ```js
 const { Client } = require("discord.js");
-const { Slashcord } = require("slashcord").default;
+const Slashcord = require("slashcord").default;
 
 // Initiate the client
 const client = new Client();
