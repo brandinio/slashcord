@@ -24,10 +24,10 @@ const Slashcord = require("slashcord").default;
 const client = new Client();
 
 client.on("ready", () => {
-	// Initialize Slashcord and it's arguments.
-	new Slashcord(client, "commands", "events");
-	.setTestServers(["id", "id2"]);
-	.setBotOwners(["id"]);
+   // Initialize Slashcord and it's arguments.
+   new Slashcord(client, "commands", "events");
+   .setTestServers(["id", "id2"]);
+   .setBotOwners(["id"]);
 });
 // Get your token
 client.login("token");
@@ -90,18 +90,18 @@ Using `options` is fairly simple, just define it in your properties when making 
 args.js
 
 module.exports  =  {
-	description: "A simple arguments command.",
-	testOnly: true, // Instantly registering the commands.
-	options: [{
-		name: "arguments",  // Name of the arguments.
-		description: "Show your arguments?",
-		type: 3,
-		required: true,
-	}],
-	execute: async ({ interaction, args }) => {
-		const arguments  = args[0].value;
-		interaction.reply(`Hey, you said: ${arguments}`);
-	}
+   description: "A simple arguments command.",
+   testOnly: true, // Instantly registering the commands.
+   options: [{
+	name: "arguments",  // Name of the arguments.
+	description: "Show your arguments?",
+	type: 3,
+	required: true,
+   }],
+   execute: async ({ interaction, args }) => {
+	const arguments  = args[0].value;
+	interaction.reply(`Hey, you said: ${arguments}`);
+   }
 }
 ```
 
