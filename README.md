@@ -1,4 +1,4 @@
-![Logo](https://raw.githubusercontent.com/MysticIsSus/slashcord/HEAD/src/utils/download.png)
+![Logo](./src/utilities/extras/slashcord.png)
 
 # Slashcord
 
