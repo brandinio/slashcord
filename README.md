@@ -25,7 +25,7 @@ const client = new Client();
 
 client.on("ready", () => {
 	// Initialize Slashcord and it's arguments.
-	new Slashcord(client, "commands", "events");
+    new Slashcord(client, "commands", "events");
 	.setTestServers(["id", "id2"]);
 	.setBotOwners(["id"]);
 });
