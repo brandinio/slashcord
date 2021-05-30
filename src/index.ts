@@ -1,6 +1,5 @@
 import { Client, Collection } from "discord.js";
 import { CommandHandler } from "./handlers/CommandHandler";
-import { EventHandler } from "./handlers/EventHandler";
 import Slasherror from "./utilities/extras/error";
 import Slashcmds from "./utilities/slash";
 
@@ -18,13 +17,12 @@ class Slashcord {
 
   private _slash: Slashcmds;
   private _command: CommandHandler;
-  private _feature: EventHandler;
 
   public cooldownMsg: string = "Please wait {COOLDOWN} before using that.";
   public permissionMsg: string = "You need the {PERMISSION} permission.";
   public devOnlyMsg: string = "You must a developer to use this command.";
 
-  constructor(client: Client, commandsDir: string, eventsDir: string) {
+  constructor(client: Client, commandsDir: string) {
     if (!client) {
       throw new Slasherror(
         "Please provide a Discord.js client in the first argument."
@@ -33,7 +31,6 @@ class Slashcord {
 
     this._client = client;
     this._commandsDir = commandsDir;
-    this._featuresDir = eventsDir;
 
     if (!commandsDir) {
       console.warn(
@@ -43,7 +40,6 @@ class Slashcord {
 
     this._slash = new Slashcmds(this);
     this._command = new CommandHandler(this, this._commandsDir);
-    this._feature = new EventHandler(this, client, this._featuresDir);
   }
   public setTestServers(guildIds: string[]): Slashcord {
     this._testServers = guildIds;
