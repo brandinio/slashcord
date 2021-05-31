@@ -4,14 +4,24 @@ import Slasherror from "./utilities/extras/error";
 import Slashcmds from "./utilities/slash";
 
 import { Command } from "./utilities/command";
+type SlashcordOptions = {
+  useButtons?: boolean | undefined;
+  testServers?: string[] | undefined;
+  botOwners?: string[] | undefined;
+  cooldownError?: string | undefined;
+  permissionError?: string | undefined;
+  devError?: string | undefined;
+};
+
 class Slashcord {
   private _client: Client;
 
   private _commandsDir = "./commands";
   private _featuresDir = "";
 
-  private _testServers: string[] = [];
-  private _botOwners: string[] = [];
+  private _testServers: string[] | undefined = [];
+  private _botOwners: string[] | undefined = [];
+  private _useButtons: boolean | undefined = false;
 
   public commands: Collection<string, any> = new Collection();
   public cooldowns: Collection<string, any> = new Collection();
@@ -19,11 +29,14 @@ class Slashcord {
   private _slash: Slashcmds;
   private _command: CommandHandler;
 
-  public cooldownMsg: string = "Please wait {COOLDOWN} before using that.";
-  public permissionMsg: string = "You need the {PERMISSION} permission.";
-  public devOnlyMsg: string = "You must a developer to use this command.";
+  public cooldownMsg: string | undefined =
+    "Please wait {COOLDOWN} before using that.";
+  public permissionMsg: string | undefined =
+    "You need the {PERMISSION} permission.";
+  public devOnlyMsg: string | undefined =
+    "You must a developer to use this command.";
 
-  constructor(client: Client, commandsDir: string) {
+  constructor(client: Client, commandsDir: string, options: SlashcordOptions) {
     if (!client) {
       throw new Slasherror(
         "Please provide a Discord.js client in the first argument."
@@ -41,39 +54,17 @@ class Slashcord {
 
     this._slash = new Slashcmds(this);
     this._command = new CommandHandler(this, this._commandsDir);
-  }
-  public setTestServers(guildIds: string[]): Slashcord {
-    this._testServers = guildIds;
-    return this;
-  }
-
-  public setBotOwners(userIds: string[]): Slashcord {
-    this._botOwners = userIds;
-    return this;
-  }
-
-  /**
-   * Setting the cooldown error message, use {COOLDOWN} to show the cooldown.
-   */
-  public setCooldownError(message: string): Slashcord {
-    this.cooldownMsg = message;
-    return this;
-  }
-
-  /**
-   * Setting the permission error message, use {PERMISSION} to show the permissions.
-   */
-  public setPermissionError(message: string): Slashcord {
-    this.permissionMsg = message;
-    return this;
-  }
-
-  /**
-   * Setting the developer error message.
-   */
-  public setDevError(message: string): Slashcord {
-    this.devOnlyMsg = message;
-    return this;
+    if (options && "testServers" in options)
+      this._testServers = options.testServers;
+    if (options && "botOwners" in options)
+      this._testServers = options.botOwners;
+    if (options && "cooldownError" in options)
+      this.cooldownMsg = options.cooldownError;
+    if (options && "permissionError" in options)
+      this.permissionMsg = options.permissionError;
+    if (options && "devError" in options) this.devOnlyMsg = options.devError;
+    if (options && "useButtons" in options)
+      this._useButtons = options.useButtons;
   }
 
   public get client(): Client {
