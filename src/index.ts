@@ -3,6 +3,7 @@ import { CommandHandler } from "./handlers/CommandHandler";
 import Slasherror from "./utilities/extras/error";
 import Slashcmds from "./utilities/slash";
 
+import { Command } from "./utilities/command";
 class Slashcord {
   private _client: Client;
 
@@ -92,4 +93,5 @@ class Slashcord {
   }
 }
 
-export = Slashcord;
+export default Slashcord;
+export { Command };
