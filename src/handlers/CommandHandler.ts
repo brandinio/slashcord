@@ -47,20 +47,20 @@ class CommandHandler {
           );
         }
 
-        if (testOnly && !handler.testServers.length) {
+        if (testOnly && !handler.testServers!.length) {
           throw new Slasherror(
             `The command: "${name}" has the "testOnly" property, yet there aren't test servers specified.`
           );
         }
 
-        if (devOnly && !handler.botOwners.length) {
+        if (devOnly && !handler.botOwners!.length) {
           throw new Slasherror(
             `The command: "${name}" has the "devOnly" property, yet there are no bot owners.`
           );
         }
 
         if (testOnly) {
-          for (const server of handler.testServers) {
+          for (const server of handler.testServers!) {
             await handler.slashCmds.create(name, description, options, server);
             handler.commands.set(name, command);
           }
@@ -105,7 +105,7 @@ class CommandHandler {
         !interaction.channel.permissionsFor(interaction.member).has(perms)
       ) {
         return interaction.reply(
-          handler.permissionMsg.replace(
+          handler.permissionMsg!.replace(
             /{PERMISSION}/g,
             missingPermissions(interaction.member, perms)
           )
@@ -121,7 +121,7 @@ class CommandHandler {
           timestamp.get(interaction.member.user.id) + amount;
         if (now < expirationTime) {
           return interaction.reply(
-            handler.cooldownMsg.replace(
+            handler.cooldownMsg!.replace(
               /{COOLDOWN}/g,
               msToTime(expirationTime - now)
             )
