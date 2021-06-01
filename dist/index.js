@@ -32,18 +32,20 @@ class Slashcord {
         }
         this._slash = new slash_1.default(this);
         this._command = new CommandHandler_1.CommandHandler(this, this._commandsDir);
-        if (options && "testServers" in options)
-            this._testServers = options.testServers;
-        if (options && "botOwners" in options)
-            this._testServers = options.botOwners;
-        if (options && "cooldownError" in options)
-            this.cooldownMsg = options.cooldownError;
-        if (options && "permissionError" in options)
-            this.permissionMsg = options.permissionError;
-        if (options && "devError" in options)
-            this.devOnlyMsg = options.devError;
-        if (options && "useButtons" in options)
-            this._useButtons = options.useButtons;
+        if (options) {
+            if (options.botOwners)
+                this._botOwners = options.botOwners;
+            if (options.testServers)
+                this._testServers = options.testServers;
+            if (options.useButtons)
+                this._useButtons = options.useButtons;
+            if (options.permissionError)
+                this.permissionMsg = options.permissionError;
+            if (options.devError)
+                this.devOnlyMsg = options.devError;
+            if (options.cooldownError)
+                this.cooldownMsg = options.cooldownError;
+        }
     }
     get client() {
         return this._client;

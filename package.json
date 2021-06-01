@@ -1,6 +1,6 @@
 {
   "name": "slashcord",
-  "version": "1.4.3",
+  "version": "1.4.4",
   "description": "A simple to use discord.js slash command handler, which has features for all developers!",
   "main": "dist/index.js",
   "scripts": {
