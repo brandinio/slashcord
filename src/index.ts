@@ -23,7 +23,7 @@ class Slashcord {
   private _botOwners: string[] | undefined = [];
   private _useButtons: boolean | undefined = false;
 
-  public commands: Collection<string, any> = new Collection();
+  public commands: Collection<string, Command> = new Collection();
   public cooldowns: Collection<string, any> = new Collection();
 
   private _slash: Slashcmds;
@@ -44,7 +44,7 @@ class Slashcord {
     }
 
     this._client = client;
-    this._commandsDir = commandsDir;
+    this._commandsDir = commandsDir || this._commandsDir;
 
     if (!commandsDir) {
       console.warn(

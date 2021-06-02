@@ -56,7 +56,10 @@ class CommandHandler {
         for (const [file, fileName] of files) {
             (() => __awaiter(this, void 0, void 0, function* () {
                 const command = (yield Promise.resolve().then(() => __importStar(require(file)))).default;
-                const { name = fileName, description, options, testOnly, devOnly, } = command;
+                const { name = fileName, description, options, testOnly, devOnly, arguments: args, } = command;
+                // switch (args.type) {
+                //   case "SUB":
+                // }
                 if (!description) {
                     throw new error_1.default(`A description is required for the command: "${name}", since it's a slash command.`);
                 }

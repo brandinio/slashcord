@@ -16,7 +16,7 @@ declare class Slashcord {
     private _testServers;
     private _botOwners;
     private _useButtons;
-    commands: Collection<string, any>;
+    commands: Collection<string, Command>;
     cooldowns: Collection<string, any>;
     private _slash;
     private _command;

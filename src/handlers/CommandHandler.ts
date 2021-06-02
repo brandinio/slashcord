@@ -40,7 +40,12 @@ class CommandHandler {
           options,
           testOnly,
           devOnly,
+          arguments: args,
         } = command;
+
+        // switch (args.type) {
+        //   case "SUB":
+        // }
         if (!description) {
           throw new Slasherror(
             `A description is required for the command: "${name}", since it's a slash command.`

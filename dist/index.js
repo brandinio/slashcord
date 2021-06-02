@@ -26,7 +26,7 @@ class Slashcord {
             throw new error_1.default("Please provide a Discord.js client in the first argument.");
         }
         this._client = client;
-        this._commandsDir = commandsDir;
+        this._commandsDir = commandsDir || this._commandsDir;
         if (!commandsDir) {
             console.warn('Slashcord >> There was no commands directory provided, using "./commands"');
         }
