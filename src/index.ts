@@ -7,6 +7,7 @@ import { MessageButton } from './utilities/MessageButton'
 import { Command } from "./utilities/command";
 import { awaitButtons } from "./utilities/awaitButtons";
 
+import { Command } from "./utilities/command";
 type SlashcordOptions = {
   useComponents?: boolean | undefined;
   testServers?: string[] | undefined;
