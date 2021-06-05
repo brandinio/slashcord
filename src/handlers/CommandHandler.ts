@@ -8,6 +8,7 @@ import { Interaction } from "../utilities/interaction";
 
 import ms from "ms";
 import { msToTime, missingPermissions } from "../utilities/extras/utils";
+import { ButtonInteraction } from "../utilities/ButtonInteraction";
 
 class CommandHandler {
   private _client: Client;
@@ -76,6 +77,13 @@ class CommandHandler {
      */
     //@ts-ignore
     this._client.ws.on("INTERACTION_CREATE", (interaction) => {
+      if (interaction.type == 3){
+        const button = new ButtonInteraction(interaction, { client: this._client, member: interaction.member }, handler )
+        this._client.emit('button', button)
+        return
+      }
+
+      if (interaction.type !== 2) return
       const { name, options: args } = interaction.data;
       const cmdName = name.toLowerCase();
 

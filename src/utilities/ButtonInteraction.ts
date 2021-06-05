@@ -24,8 +24,9 @@ type Options = {
   component?: Component,
 };
 
-interface Interaction {
+interface ButtonInteraction {
   client: Client;
+  customId: string;
   version: number;
   type: number;
   token: string;
@@ -45,11 +46,12 @@ interface Interaction {
     }
   ];
   channel: TextChannel;
+  message: Message;
   application_id: string;
   handler: Slashcord;
 }
 
-class Interaction {
+class ButtonInteraction {
   constructor(
     interaction: {
       type: number;
@@ -59,6 +61,11 @@ class Interaction {
       channel_id: string;
       application_id: string;
       member: GuildMember;
+      message: Message;
+      data: {
+        custom_id: string;
+        component_type: string;
+      }
     },
     extras: { client: Client; member: any },
     handler: Slashcord
@@ -72,7 +79,9 @@ class Interaction {
     this.channel = this.guild.channels.cache.get(
       interaction.channel_id
     ) as TextChannel;
+    this.message = new Message(this.client, interaction.message, this.channel)
     this.member = this.guild.members.add(extras.member);
+    this.customId = interaction.data.custom_id
     this.handler = handler;
   }
   /**
@@ -397,4 +406,4 @@ class Interaction {
   }
 }
 
-export { Interaction };
+export { ButtonInteraction };

@@ -1,11 +1,14 @@
-import { Client, Collection } from "discord.js";
+import { Client, Collection, Structures } from "discord.js";
 import { CommandHandler } from "./handlers/CommandHandler";
 import Slasherror from "./utilities/extras/error";
 import Slashcmds from "./utilities/slash";
-
+import { ActionRow } from "./utilities/ActionRow";
+import { MessageButton } from "./utilities/MessageButton";
 import { Command } from "./utilities/command";
+import { awaitButtons } from "./utilities/awaitButtons";
+
 type SlashcordOptions = {
-  useButtons?: boolean | undefined;
+  useComponents?: boolean | undefined;
   testServers?: string[] | undefined;
   botOwners?: string[] | undefined;
   cooldownError?: string | undefined;
@@ -14,6 +17,11 @@ type SlashcordOptions = {
 };
 
 class Slashcord {
+  static Command = Command;
+  static ActionRow = ActionRow;
+  static MessageButton = MessageButton;
+  static awaitButtons = awaitButtons;
+
   private _client: Client;
 
   private _commandsDir = "./commands";
@@ -21,7 +29,7 @@ class Slashcord {
 
   private _testServers: string[] | undefined = [];
   private _botOwners: string[] | undefined = [];
-  private _useButtons: boolean | undefined = false;
+  private _useComponents: boolean | undefined = false;
 
   public commands: Collection<string, Command> = new Collection();
   public cooldowns: Collection<string, any> = new Collection();
@@ -54,15 +62,17 @@ class Slashcord {
 
     this._slash = new Slashcmds(this);
     this._command = new CommandHandler(this, this._commandsDir);
-
-    if (options) {
-      if (options.botOwners) this._botOwners = options.botOwners;
-      if (options.testServers) this._testServers = options.testServers;
-      if (options.useButtons) this._useButtons = options.useButtons;
-      if (options.permissionError) this.permissionMsg = options.permissionError;
-      if (options.devError) this.devOnlyMsg = options.devError;
-      if (options.cooldownError) this.cooldownMsg = options.cooldownError;
-    }
+    if (options && "testServers" in options)
+      this._testServers = options.testServers;
+    if (options && "botOwners" in options)
+      this._testServers = options.botOwners;
+    if (options && "cooldownError" in options)
+      this.cooldownMsg = options.cooldownError;
+    if (options && "permissionError" in options)
+      this.permissionMsg = options.permissionError;
+    if (options && "devError" in options) this.devOnlyMsg = options.devError;
+    if (options && "useComponents" in options)
+      this._useComponents = options.useComponents;
   }
 
   public get client(): Client {
@@ -83,4 +93,3 @@ class Slashcord {
 }
 
 export default Slashcord;
-export { Command };
