@@ -1,20 +1,11 @@
-import { Client, PermissionResolvable } from "discord.js";
+import { Client, Collection, PermissionResolvable } from "discord.js";
 import Slashcord from "..";
 import { Interaction } from "./interaction";
 
 type Options = {
   name?: string;
   description?: string;
-  type:
-    | "SUB_COMMAND"
-    | "SUB_COMMAND_GROUP"
-    | "STRING"
-    | "NUMBER"
-    | "BOOLEAN"
-    | "USER"
-    | "CHANNEL"
-    | "ROLE"
-    | "MENTIONABLE";
+  type: 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9;
   required?: boolean;
 };
 
@@ -25,7 +16,7 @@ interface Command {
   devOnly?: boolean;
   cooldown?: string;
   perms?: PermissionResolvable;
-  arguments?: Options[];
+  options?: Options;
   execute: ({
     client,
     interaction,
@@ -48,7 +39,7 @@ class Command {
     devOnly,
     perms,
     testOnly,
-    arguments: args,
+    options,
   }: Command) {
     this.name = name;
     this.description = description;
@@ -57,7 +48,7 @@ class Command {
     this.devOnly = devOnly;
     this.perms = perms;
     this.testOnly = testOnly;
-    this.arguments = args;
+    this.options = options;
   }
 }
 // here

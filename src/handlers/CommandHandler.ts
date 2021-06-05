@@ -34,18 +34,13 @@ class CommandHandler {
     for (const [file, fileName] of files) {
       (async () => {
         const command = (await import(file)).default;
-        const {
+        let {
           name = fileName,
           description,
           options,
           testOnly,
           devOnly,
-          arguments: args,
         } = command;
-
-        // switch (args.type) {
-        //   case "SUB":
-        // }
         if (!description) {
           throw new Slasherror(
             `A description is required for the command: "${name}", since it's a slash command.`

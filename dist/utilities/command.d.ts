@@ -4,7 +4,7 @@ import { Interaction } from "./interaction";
 declare type Options = {
     name?: string;
     description?: string;
-    type: "SUB_COMMAND" | "SUB_COMMAND_GROUP" | "STRING" | "NUMBER" | "BOOLEAN" | "USER" | "CHANNEL" | "ROLE" | "MENTIONABLE";
+    type: 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9;
     required?: boolean;
 };
 interface Command {
@@ -14,7 +14,7 @@ interface Command {
     devOnly?: boolean;
     cooldown?: string;
     perms?: PermissionResolvable;
-    arguments?: Options[];
+    options?: Options;
     execute: ({ client, interaction, args, handler, }: {
         client: Client;
         interaction: Interaction;
@@ -23,6 +23,6 @@ interface Command {
     }) => any;
 }
 declare class Command {
-    constructor({ name, description, execute, cooldown, devOnly, perms, testOnly, arguments: args, }: Command);
+    constructor({ name, description, execute, cooldown, devOnly, perms, testOnly, options, }: Command);
 }
 export { Command };
