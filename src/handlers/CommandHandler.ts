@@ -8,6 +8,7 @@ import { Interaction } from "../utilities/interaction";
 
 import ms from "ms";
 import { msToTime, missingPermissions } from "../utilities/extras/utils";
+import { ButtonInteraction } from "../utilities/ButtonInteraction";
 
 class CommandHandler {
   private _client: Client;
@@ -47,20 +48,20 @@ class CommandHandler {
           );
         }
 
-        if (testOnly && !handler.testServers.length) {
+        if (testOnly && !handler.testServers!.length) {
           throw new Slasherror(
             `The command: "${name}" has the "testOnly" property, yet there aren't test servers specified.`
           );
         }
 
-        if (devOnly && !handler.botOwners.length) {
+        if (devOnly && !handler.botOwners!.length) {
           throw new Slasherror(
             `The command: "${name}" has the "devOnly" property, yet there are no bot owners.`
           );
         }
 
         if (testOnly) {
-          for (const server of handler.testServers) {
+          for (const server of handler.testServers!) {
             await handler.slashCmds.create(name, description, options, server);
             handler.commands.set(name, command);
           }
@@ -76,6 +77,13 @@ class CommandHandler {
      */
     //@ts-ignore
     this._client.ws.on("INTERACTION_CREATE", (interaction) => {
+      if (interaction.type == 3){
+        const button = new ButtonInteraction(interaction, { client: this._client, member: interaction.member }, handler )
+        this._client.emit('button', button)
+        return
+      }
+
+      if (interaction.type !== 2) return
       const { name, options: args } = interaction.data;
       const cmdName = name.toLowerCase();
 
@@ -105,7 +113,7 @@ class CommandHandler {
         !interaction.channel.permissionsFor(interaction.member).has(perms)
       ) {
         return interaction.reply(
-          handler.permissionMsg.replace(
+          handler.permissionMsg!.replace(
             /{PERMISSION}/g,
             missingPermissions(interaction.member, perms)
           )
@@ -121,7 +129,7 @@ class CommandHandler {
           timestamp.get(interaction.member.user.id) + amount;
         if (now < expirationTime) {
           return interaction.reply(
-            handler.cooldownMsg.replace(
+            handler.cooldownMsg!.replace(
               /{COOLDOWN}/g,
               msToTime(expirationTime - now)
             )

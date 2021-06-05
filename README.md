@@ -24,10 +24,11 @@ const Slashcord = require("slashcord").default;
 const client = new Client();
 
 client.on("ready", () => {
-   // Initialize Slashcord and it's arguments.
-   new Slashcord(client, "commands", "events");
-   .setTestServers(["id", "id2"]);
-   .setBotOwners(["id"]);
+  // Initialize Slashcord and it's arguments.
+  new Slashcord(client, "commands", {
+    testServers: ["id", "id2"],
+    botOwners: ["id"],
+  });
 });
 // Get your token
 client.login("token");
