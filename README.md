@@ -48,7 +48,7 @@ You can specify `testServers` and `botOwners`, this is a handler that is **advan
 Creating a command is pretty simple with **Slashcord**, the file name is automatically a command name. More properties are coming along the way for the command, here is a basic command:
 
 ```js
-ping.js;
+// ping.js;
 
 module.exports = {
   description: "A simple ping command.",
@@ -63,7 +63,7 @@ The command name is `ping` so the command will be: `/ping`
 We can also specify the `cooldown`, `perms`, and checking if the command will be `devOnly`.
 
 ```js
-devOnly.js;
+// devOnly.js;
 
 module.exports = {
   description: "A simple developer command.",
@@ -88,7 +88,7 @@ The `interaction` parameter is a custom version of the interaction.
 Using `options` is fairly simple, just define it in your properties when making a command.
 
 ```js
-args.js
+// args.js
 
 module.exports  =  {
    description: "A simple arguments command.",
@@ -155,8 +155,8 @@ Fetching a reply would get the `Message` object from the interaction, which is p
 ```js
 execute: async ({ interaction }) => {
   interaction.reply("React for cookies.");
-  const msg = await interaction.fetchReply();
-  msg.react("🍪");
+  const message = await interaction.fetchReply();
+  message.react("🍪");
 };
 ```
 
@@ -170,19 +170,10 @@ execute: async ({ interaction }) => {
 };
 ```
 
-# Creating a Event
-
-Making a `event` is pretty simple, just pass in a `client` parameter in your `module.exports` and do whatever you want!
-
-```js
-module.exports = (client) => {
-  // Do whatever you want here :)
-};
-```
-
 # Components!
 
 To offer ease of use and good readability, components can be sent in many ways!
+
 `Note that currently there is only 1 component which is buttons`
 
 ## Sending a single component
