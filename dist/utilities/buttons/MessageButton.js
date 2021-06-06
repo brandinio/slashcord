@@ -1,7 +1,7 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.MessageButton = void 0;
-const utils_1 = require("./extras/utils");
+const utils_1 = require("../extras/utils");
 const styles = {
     blurple: 1,
     grey: 2,

@@ -1,7 +1,7 @@
 import { Client, Guild, GuildMember, Message, TextChannel } from "discord.js";
-import Slashcord from "..";
+import Slashcord from "../..";
 import { ActionRow } from "./ActionRow";
-import { Component } from "./types";
+import { Component } from "../types";
 declare type Options = {
     tts?: boolean;
     type?: number;
@@ -10,8 +10,9 @@ declare type Options = {
     components?: Component[];
     component?: Component;
 };
-interface Interaction {
+interface ButtonInteraction {
     client: Client;
+    customId: string;
     version: number;
     type: number;
     token: string;
@@ -31,10 +32,11 @@ interface Interaction {
         }
     ];
     channel: TextChannel;
+    message: Message;
     application_id: string;
     handler: Slashcord;
 }
-declare class Interaction {
+declare class ButtonInteraction {
     constructor(interaction: {
         type: number;
         token: string;
@@ -43,6 +45,11 @@ declare class Interaction {
         channel_id: string;
         application_id: string;
         member: GuildMember;
+        message: Message;
+        data: {
+            custom_id: string;
+            component_type: string;
+        };
     }, extras: {
         client: Client;
         member: any;
@@ -57,6 +64,7 @@ declare class Interaction {
      * @example interaction.acknowledge()
      */
     acknowledge(): Promise<void>;
+    defer(): Promise<void>;
     /**
      * Deleting our interaction response, there needs to be an existing response.
      * @example interaction.delete()
@@ -68,12 +76,12 @@ declare class Interaction {
      * Editing an interaction with ease.
      * @example interaction.reply('wait, gimme a sec.') interaction.edit('👌')
      */
-    edit(content: any, options?: Options | Component | ActionRow | Component[] | ActionRow[] | undefined): Promise<void>;
+    edit(content: any): Promise<void>;
     /**
      * Following up with another message! Cool!
      * @example await interaction.reply('Hey!') interaction.followUp('hm...')
      */
-    followUp(response: any, options?: Options | Component | ActionRow | Component[] | ActionRow[] | undefined): Promise<any>;
+    followUp(response: any): Promise<any>;
     /**
      * Fetching the interaction reply, bring the message object.
      * @example interaction.reply('HMMM!!') const msg = await interaction.fetchReply();
@@ -85,4 +93,4 @@ declare class Interaction {
      */
     onlyReply(response: any, options: Options): Promise<void>;
 }
-export { Interaction };
+export { ButtonInteraction };

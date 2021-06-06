@@ -19,14 +19,18 @@ interface ButtonInteraction {
     member: GuildMember | null;
     id: string;
     guild: Guild | null;
-    data: [{
-        name: string;
-        id: string;
-        options?: [{
+    data: [
+        {
             name: string;
-            value: string;
-        }];
-    }];
+            id: string;
+            options?: [
+                {
+                    name: string;
+                    value: string;
+                }
+            ];
+        }
+    ];
     channel: TextChannel;
     message: Message;
     application_id: string;

@@ -13,13 +13,13 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.Interaction = void 0;
+exports.ButtonInteraction = void 0;
 const axios_1 = __importDefault(require("axios"));
 const discord_js_1 = require("discord.js");
 const ActionRow_1 = require("./ActionRow");
-const error_1 = __importDefault(require("./extras/error"));
-const utils_1 = require("./extras/utils");
-class Interaction {
+const error_1 = __importDefault(require("../extras/error"));
+const utils_1 = require("../extras/utils");
+class ButtonInteraction {
     constructor(interaction, extras, handler) {
         this.client = extras.client;
         this.token = interaction.token;
@@ -27,7 +27,9 @@ class Interaction {
         this.id = interaction.id;
         this.guild = this.client.guilds.cache.get(interaction.guild_id);
         this.channel = this.guild.channels.cache.get(interaction.channel_id);
+        this.message = new discord_js_1.Message(this.client, interaction.message, this.channel);
         this.member = this.guild.members.add(extras.member);
+        this.customId = interaction.data.custom_id;
         this.handler = handler;
     }
     /**
@@ -54,12 +56,12 @@ class Interaction {
                 data.components = [
                     {
                         type: 1,
-                        components: [utils_1.resolveComponent(options)]
-                    }
+                        components: [utils_1.resolveComponent(options)],
+                    },
                 ];
             if (options instanceof ActionRow_1.ActionRow) {
                 if (!options.components)
-                    throw new error_1.default('Cannot send ActionRow with no components');
+                    throw new error_1.default("Cannot send ActionRow with no components");
                 data.components = [utils_1.resolveActionRow(options)];
             }
             const isComponentArray = (i) => utils_1.isComponent(i);
@@ -69,19 +71,19 @@ class Interaction {
                     data.components = [
                         {
                             type: 1,
-                            components: []
-                        }
+                            components: [],
+                        },
                     ];
                     if (options.length > 5)
-                        throw new error_1.default('You have exceeded 5 buttons, if you want to add more than 5 use the ActionRow method as documented in the documentation');
-                    options.forEach(component => {
+                        throw new error_1.default("You have exceeded 5 buttons, if you want to add more than 5 use the ActionRow method as documented in the documentation");
+                    options.forEach((component) => {
                         data.components[0].components.push(utils_1.resolveComponent(component));
                     });
                     return;
                 }
                 if (options.every(isActionRowArray)) {
                     const components = [];
-                    options.forEach(actionRow => {
+                    options.forEach((actionRow) => {
                         components.push(utils_1.resolveActionRow(actionRow));
                     });
                     data.components = components;
@@ -111,6 +113,16 @@ class Interaction {
             this.client.api.interactions(this.id, this.token).callback.post({
                 data: {
                     type: 5,
+                },
+            });
+        });
+    }
+    defer() {
+        return __awaiter(this, void 0, void 0, function* () {
+            //@ts-ignore
+            this.client.api.interactions(this.id, this.token).callback.post({
+                data: {
+                    type: 6,
                 },
             });
         });
@@ -154,14 +166,14 @@ class Interaction {
      * Editing an interaction with ease.
      * @example interaction.reply('wait, gimme a sec.') interaction.edit('👌')
      */
-    edit(content, options) {
+    edit(content) {
         return __awaiter(this, void 0, void 0, function* () {
             if (!content) {
                 throw new error_1.default(`Cannot send an empty message.`);
             }
             let data = {
                 content,
-                components: []
+                components: [],
             };
             if (typeof content === "object") {
                 const embed = new discord_js_1.MessageEmbed(content);
@@ -171,12 +183,12 @@ class Interaction {
                 data.components = [
                     {
                         type: 1,
-                        components: [utils_1.resolveComponent(options)]
-                    }
+                        components: [utils_1.resolveComponent(options)],
+                    },
                 ];
             if (options instanceof ActionRow_1.ActionRow) {
                 if (!options.components)
-                    throw new error_1.default('Cannot send ActionRow with no components');
+                    throw new error_1.default("Cannot send ActionRow with no components");
                 data.components = [utils_1.resolveActionRow(options)];
             }
             const isComponentArray = (i) => utils_1.isComponent(i);
@@ -186,19 +198,19 @@ class Interaction {
                     data.components = [
                         {
                             type: 1,
-                            components: []
-                        }
+                            components: [],
+                        },
                     ];
                     if (options.length > 5)
-                        throw new error_1.default('You have exceeded 5 buttons, if you want to add more than 5 use the ActionRow method as documented in the documentation');
-                    options.forEach(component => {
+                        throw new error_1.default("You have exceeded 5 buttons, if you want to add more than 5 use the ActionRow method as documented in the documentation");
+                    options.forEach((component) => {
                         data.components[0].components.push(utils_1.resolveComponent(component));
                     });
                     return;
                 }
                 if (options.every(isActionRowArray)) {
                     const components = [];
-                    options.forEach(actionRow => {
+                    options.forEach((actionRow) => {
                         components.push(utils_1.resolveActionRow(actionRow));
                     });
                     data.components = components;
@@ -216,14 +228,14 @@ class Interaction {
      * Following up with another message! Cool!
      * @example await interaction.reply('Hey!') interaction.followUp('hm...')
      */
-    followUp(response, options) {
+    followUp(response) {
         return __awaiter(this, void 0, void 0, function* () {
             if (!response) {
                 throw new error_1.default("Cannot send an empty message.");
             }
             let data = {
                 content: response,
-                components: []
+                components: [],
             };
             if (typeof response === "object") {
                 const embed = new discord_js_1.MessageEmbed(response);
@@ -233,12 +245,12 @@ class Interaction {
                 data.components = [
                     {
                         type: 1,
-                        components: [utils_1.resolveComponent(options)]
-                    }
+                        components: [utils_1.resolveComponent(options)],
+                    },
                 ];
             if (options instanceof ActionRow_1.ActionRow) {
                 if (!options.components)
-                    throw new error_1.default('Cannot send ActionRow with no components');
+                    throw new error_1.default("Cannot send ActionRow with no components");
                 data.components = [utils_1.resolveActionRow(options)];
             }
             const isComponentArray = (i) => utils_1.isComponent(i);
@@ -248,19 +260,19 @@ class Interaction {
                     data.components = [
                         {
                             type: 1,
-                            components: []
-                        }
+                            components: [],
+                        },
                     ];
                     if (options.length > 5)
-                        throw new error_1.default('You have exceeded 5 buttons, if you want to add more than 5 use the ActionRow method as documented in the documentation');
-                    options.forEach(component => {
+                        throw new error_1.default("You have exceeded 5 buttons, if you want to add more than 5 use the ActionRow method as documented in the documentation");
+                    options.forEach((component) => {
                         data.components[0].components.push(utils_1.resolveComponent(component));
                     });
                     return;
                 }
                 if (options.every(isActionRowArray)) {
                     const components = [];
-                    options.forEach(actionRow => {
+                    options.forEach((actionRow) => {
                         components.push(utils_1.resolveActionRow(actionRow));
                     });
                     data.components = components;
@@ -330,4 +342,4 @@ class Interaction {
         });
     }
 }
-exports.Interaction = Interaction;
+exports.ButtonInteraction = ButtonInteraction;

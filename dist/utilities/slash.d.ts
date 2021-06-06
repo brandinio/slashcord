@@ -7,6 +7,8 @@ declare class Slashcmds {
     get(guildId?: string): Promise<any>;
     create(name: string, description: string, options?: object[], guildId?: string): Promise<any>;
     delete(commandId: string, guildId?: string): Promise<any>;
-    APIMsg(channel: Channel, content: any): Promise<any>;
+    APIMsg(channel: Channel, content: any): Promise<{
+        files: object[] | null;
+    }>;
 }
 export = Slashcmds;

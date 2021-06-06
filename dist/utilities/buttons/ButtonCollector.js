@@ -15,18 +15,18 @@ class ButtonCollector extends discord_js_1.Collector {
         this._handleGuildDeletion = this._handleGuildDeletion.bind(this);
         this._handleMessageDeletion = this._handleMessageDeletion.bind(this);
         this.client.incrementMaxListeners();
-        this.client.on('button', this.handleCollect);
+        this.client.on("button", this.handleCollect);
         this.client.on(Events.MESSAGE_DELETE, this._handleMessageDeletion);
         this.client.on(Events.CHANNEL_DELETE, this._handleChannelDeletion);
         this.client.on(Events.GUILD_DELETE, this._handleGuildDeletion);
-        this.once('end', () => {
-            this.client.removeListener('button', this.handleCollect);
+        this.once("end", () => {
+            this.client.removeListener("button", this.handleCollect);
             this.client.removeListener(Events.MESSAGE_DELETE, this._handleMessageDeletion);
             this.client.removeListener(Events.CHANNEL_DELETE, this._handleChannelDeletion);
             this.client.removeListener(Events.GUILD_DELETE, this._handleGuildDeletion);
             this.client.decrementMaxListeners();
         });
-        this.on('collect', (button) => {
+        this.on("collect", (button) => {
             this.total++;
             this.users.set(button.member.user.id, button.member.user);
         });
@@ -44,26 +44,27 @@ class ButtonCollector extends discord_js_1.Collector {
     }
     endReason() {
         if (this.options.max && this.total >= this.options.max)
-            return 'limit';
-        if (this.options.maxButtons && this.collected.size >= this.options.maxButtons)
-            return 'buttonLimit';
+            return "limit";
+        if (this.options.maxButtons &&
+            this.collected.size >= this.options.maxButtons)
+            return "buttonLimit";
         if (this.options.maxUsers && this.users.size >= this.options.maxUsers)
-            return 'userLimit';
+            return "userLimit";
         return null;
     }
     _handleMessageDeletion(message) {
         if (message.id === this.message.id) {
-            this.stop('messageDelete');
+            this.stop("messageDelete");
         }
     }
     _handleChannelDeletion(channel) {
         if (channel.id === this.message.channel.id) {
-            this.stop('channelDelete');
+            this.stop("channelDelete");
         }
     }
     _handleGuildDeletion(guild) {
         if (this.message.guild && guild.id === this.message.guild.id) {
-            this.stop('guildDelete');
+            this.stop("guildDelete");
         }
     }
 }
