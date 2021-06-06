@@ -60,6 +60,7 @@ declare class ButtonInteraction {
      * @example interaction.acknowledge()
      */
     acknowledge(): Promise<void>;
+    defer(): Promise<void>;
     /**
      * Deleting our interaction response, there needs to be an existing response.
      * @example interaction.delete()

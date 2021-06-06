@@ -64,12 +64,12 @@ declare class Interaction {
      * Editing an interaction with ease.
      * @example interaction.reply('wait, gimme a sec.') interaction.edit('👌')
      */
-    edit(content: any): Promise<void>;
+    edit(content: any, options?: Options | Component | ActionRow | Component[] | ActionRow[] | undefined): Promise<void>;
     /**
      * Following up with another message! Cool!
      * @example await interaction.reply('Hey!') interaction.followUp('hm...')
      */
-    followUp(response: any): Promise<any>;
+    followUp(response: any, options?: Options | Component | ActionRow | Component[] | ActionRow[] | undefined): Promise<any>;
     /**
      * Fetching the interaction reply, bring the message object.
      * @example interaction.reply('HMMM!!') const msg = await interaction.fetchReply();

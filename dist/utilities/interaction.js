@@ -153,7 +153,7 @@ class Interaction {
      * Editing an interaction with ease.
      * @example interaction.reply('wait, gimme a sec.') interaction.edit('👌')
      */
-    edit(content) {
+    edit(content, options) {
         return __awaiter(this, void 0, void 0, function* () {
             if (!content) {
                 throw new error_1.default(`Cannot send an empty message.`);
@@ -215,7 +215,7 @@ class Interaction {
      * Following up with another message! Cool!
      * @example await interaction.reply('Hey!') interaction.followUp('hm...')
      */
-    followUp(response) {
+    followUp(response, options) {
         return __awaiter(this, void 0, void 0, function* () {
             if (!response) {
                 throw new error_1.default("Cannot send an empty message.");

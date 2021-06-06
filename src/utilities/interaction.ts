@@ -198,7 +198,7 @@ class Interaction {
    * Editing an interaction with ease.
    * @example interaction.reply('wait, gimme a sec.') interaction.edit('👌')
    */
-  async edit(content: any) {
+  async edit(content: any, options?: Options | Component | ActionRow | Component[] | ActionRow[] | undefined) {
     if (!content) {
       throw new Slasherror(`Cannot send an empty message.`);
     }
@@ -269,7 +269,7 @@ class Interaction {
    * Following up with another message! Cool!
    * @example await interaction.reply('Hey!') interaction.followUp('hm...')
    */
-  async followUp(response: any) {
+  async followUp(response: any, options?: Options | Component | ActionRow | Component[] | ActionRow[] | undefined) {
     if (!response) {
       throw new Slasherror("Cannot send an empty message.");
     }

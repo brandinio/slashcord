@@ -172,6 +172,15 @@ class ButtonInteraction {
     });
   }
 
+   async defer() {
+    //@ts-ignore
+    this.client.api.interactions(this.id, this.token).callback.post({
+      data: {
+        type: 6,
+      },
+    });
+  }
+
   /**
    * Deleting our interaction response, there needs to be an existing response.
    * @example interaction.delete()
