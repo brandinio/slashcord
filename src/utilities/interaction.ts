@@ -11,17 +11,21 @@ import {
 } from "discord.js";
 
 import Slashcord from "..";
-import { ActionRow } from "./ActionRow";
+import { ActionRow } from "./buttons/ActionRow";
 import Slasherror from "./extras/error";
-import { isComponent, resolveActionRow, resolveComponent } from "./extras/utils";
+import {
+  isComponent,
+  resolveActionRow,
+  resolveComponent,
+} from "./extras/utils";
 import { Component } from "./types";
 type Options = {
   tts?: boolean;
   type?: number;
   embeds?: object[] | any;
   flags?: number;
-  components?: Component[],
-  component?: Component,
+  components?: Component[];
+  component?: Component;
 };
 
 interface Interaction {
@@ -79,7 +83,16 @@ class Interaction {
    * Responding to an interaction, with ease.
    * @example
    */
-  async reply(response: any, options?: Options | Component | ActionRow | Component[] | ActionRow[] | undefined) {
+  async reply(
+    response: any,
+    options?:
+      | Options
+      | Component
+      | ActionRow
+      | Component[]
+      | ActionRow[]
+      | undefined
+  ) {
     if (!response) {
       throw new Slasherror("Cannot send an empty message.");
     }
@@ -97,41 +110,46 @@ class Interaction {
       data = await this.handler.slashCmds.APIMsg(this.channel, embed);
     }
 
-    if (isComponent(options)) data.components = [
-      {
-        type: 1,
-        components: [resolveComponent(options)]
-      }
-    ]
+    if (isComponent(options))
+      data.components = [
+        {
+          type: 1,
+          components: [resolveComponent(options)],
+        },
+      ];
 
-    if (options instanceof ActionRow){
-      if (!options.components) throw new Slasherror('Cannot send ActionRow with no components')
-      data.components = [resolveActionRow(options)]
+    if (options instanceof ActionRow) {
+      if (!options.components)
+        throw new Slasherror("Cannot send ActionRow with no components");
+      data.components = [resolveActionRow(options)];
     }
 
-    const isComponentArray = (i: any) => isComponent(i)
-    const isActionRowArray = (i: any) => i instanceof ActionRow
+    const isComponentArray = (i: any) => isComponent(i);
+    const isActionRowArray = (i: any) => i instanceof ActionRow;
 
-    if (Array.isArray(options)){
-      if (options.every(isComponentArray)){
+    if (Array.isArray(options)) {
+      if (options.every(isComponentArray)) {
         data.components = [
           {
             type: 1,
-            components: []
-          }
-        ]
-        if (options.length > 5) throw new Slasherror('You have exceeded 5 buttons, if you want to add more than 5 use the ActionRow method as documented in the documentation')
-        options.forEach(component => {
-          data.components[0].components.push(resolveComponent(component))
-        })
-        return
+            components: [],
+          },
+        ];
+        if (options.length > 5)
+          throw new Slasherror(
+            "You have exceeded 5 buttons, if you want to add more than 5 use the ActionRow method as documented in the documentation"
+          );
+        options.forEach((component) => {
+          data.components[0].components.push(resolveComponent(component));
+        });
+        return;
       }
-      if (options.every(isActionRowArray)){
-        const components: any = []
-        options.forEach(actionRow => {
-          components.push(resolveActionRow(actionRow))
-        })
-        data.components = components
+      if (options.every(isActionRowArray)) {
+        const components: any = [];
+        options.forEach((actionRow) => {
+          components.push(resolveActionRow(actionRow));
+        });
+        data.components = components;
       }
     }
 
@@ -198,14 +216,23 @@ class Interaction {
    * Editing an interaction with ease.
    * @example interaction.reply('wait, gimme a sec.') interaction.edit('👌')
    */
-  async edit(content: any, options?: Options | Component | ActionRow | Component[] | ActionRow[] | undefined) {
+  async edit(
+    content: any,
+    options?:
+      | Options
+      | Component
+      | ActionRow
+      | Component[]
+      | ActionRow[]
+      | undefined
+  ) {
     if (!content) {
       throw new Slasherror(`Cannot send an empty message.`);
     }
 
     let data: any = {
       content,
-      components: []
+      components: [],
     };
 
     if (typeof content === "object") {
@@ -213,41 +240,46 @@ class Interaction {
       data = await this.handler.slashCmds.APIMsg(this.channel, embed);
     }
 
-    if (isComponent(options)) data.components = [
-      {
-        type: 1,
-        components: [resolveComponent(options)]
-      }
-    ]
+    if (isComponent(options))
+      data.components = [
+        {
+          type: 1,
+          components: [resolveComponent(options)],
+        },
+      ];
 
-    if (options instanceof ActionRow){
-      if (!options.components) throw new Slasherror('Cannot send ActionRow with no components')
-      data.components = [resolveActionRow(options)]
+    if (options instanceof ActionRow) {
+      if (!options.components)
+        throw new Slasherror("Cannot send ActionRow with no components");
+      data.components = [resolveActionRow(options)];
     }
 
-    const isComponentArray = (i: any) => isComponent(i)
-    const isActionRowArray = (i: any) => i instanceof ActionRow
+    const isComponentArray = (i: any) => isComponent(i);
+    const isActionRowArray = (i: any) => i instanceof ActionRow;
 
-    if (Array.isArray(options)){
-      if (options.every(isComponentArray)){
+    if (Array.isArray(options)) {
+      if (options.every(isComponentArray)) {
         data.components = [
           {
             type: 1,
-            components: []
-          }
-        ]
-        if (options.length > 5) throw new Slasherror('You have exceeded 5 buttons, if you want to add more than 5 use the ActionRow method as documented in the documentation')
-        options.forEach(component => {
-          data.components[0].components.push(resolveComponent(component))
-        })
-        return
+            components: [],
+          },
+        ];
+        if (options.length > 5)
+          throw new Slasherror(
+            "You have exceeded 5 buttons, if you want to add more than 5 use the ActionRow method as documented in the documentation"
+          );
+        options.forEach((component) => {
+          data.components[0].components.push(resolveComponent(component));
+        });
+        return;
       }
-      if (options.every(isActionRowArray)){
-        const components: any = []
-        options.forEach(actionRow => {
-          components.push(resolveActionRow(actionRow))
-        })
-        data.components = components
+      if (options.every(isActionRowArray)) {
+        const components: any = [];
+        options.forEach((actionRow) => {
+          components.push(resolveActionRow(actionRow));
+        });
+        data.components = components;
       }
     }
 
@@ -269,14 +301,23 @@ class Interaction {
    * Following up with another message! Cool!
    * @example await interaction.reply('Hey!') interaction.followUp('hm...')
    */
-  async followUp(response: any, options?: Options | Component | ActionRow | Component[] | ActionRow[] | undefined) {
+  async followUp(
+    response: any,
+    options?:
+      | Options
+      | Component
+      | ActionRow
+      | Component[]
+      | ActionRow[]
+      | undefined
+  ) {
     if (!response) {
       throw new Slasherror("Cannot send an empty message.");
     }
 
     let data: any = {
       content: response,
-      components: []
+      components: [],
     };
 
     if (typeof response === "object") {
@@ -284,41 +325,46 @@ class Interaction {
       data = await this.handler.slashCmds.APIMsg(this.channel, embed);
     }
 
-    if (isComponent(options)) data.components = [
-      {
-        type: 1,
-        components: [resolveComponent(options)]
-      }
-    ]
+    if (isComponent(options))
+      data.components = [
+        {
+          type: 1,
+          components: [resolveComponent(options)],
+        },
+      ];
 
-    if (options instanceof ActionRow){
-      if (!options.components) throw new Slasherror('Cannot send ActionRow with no components')
-      data.components = [resolveActionRow(options)]
+    if (options instanceof ActionRow) {
+      if (!options.components)
+        throw new Slasherror("Cannot send ActionRow with no components");
+      data.components = [resolveActionRow(options)];
     }
 
-    const isComponentArray = (i: any) => isComponent(i)
-    const isActionRowArray = (i: any) => i instanceof ActionRow
+    const isComponentArray = (i: any) => isComponent(i);
+    const isActionRowArray = (i: any) => i instanceof ActionRow;
 
-    if (Array.isArray(options)){
-      if (options.every(isComponentArray)){
+    if (Array.isArray(options)) {
+      if (options.every(isComponentArray)) {
         data.components = [
           {
             type: 1,
-            components: []
-          }
-        ]
-        if (options.length > 5) throw new Slasherror('You have exceeded 5 buttons, if you want to add more than 5 use the ActionRow method as documented in the documentation')
-        options.forEach(component => {
-          data.components[0].components.push(resolveComponent(component))
-        })
-        return
+            components: [],
+          },
+        ];
+        if (options.length > 5)
+          throw new Slasherror(
+            "You have exceeded 5 buttons, if you want to add more than 5 use the ActionRow method as documented in the documentation"
+          );
+        options.forEach((component) => {
+          data.components[0].components.push(resolveComponent(component));
+        });
+        return;
       }
-      if (options.every(isActionRowArray)){
-        const components: any = []
-        options.forEach(actionRow => {
-          components.push(resolveActionRow(actionRow))
-        })
-        data.components = components
+      if (options.every(isActionRowArray)) {
+        const components: any = [];
+        options.forEach((actionRow) => {
+          components.push(resolveActionRow(actionRow));
+        });
+        data.components = components;
       }
     }
 

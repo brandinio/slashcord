@@ -1,7 +1,9 @@
 "use strict";
-var __importDefault = (this && this.__importDefault) || function (mod) {
-    return (mod && mod.__esModule) ? mod : { "default": mod };
-};
+var __importDefault =
+  (this && this.__importDefault) ||
+  function (mod) {
+    return mod && mod.__esModule ? mod : { default: mod };
+  };
 Object.defineProperty(exports, "__esModule", { value: true });
 const discord_js_1 = require("discord.js");
 const CommandHandler_1 = require("./handlers/CommandHandler");
@@ -12,52 +14,57 @@ const MessageButton_1 = require("./utilities/MessageButton");
 const command_1 = require("./utilities/command");
 const awaitButtons_1 = require("./utilities/awaitButtons");
 class Slashcord {
-    constructor(client, commandsDir, options) {
-        this._commandsDir = "./commands";
-        this._featuresDir = "";
-        this._testServers = [];
-        this._botOwners = [];
-        this._useComponents = false;
-        this.commands = new discord_js_1.Collection();
-        this.cooldowns = new discord_js_1.Collection();
-        this.cooldownMsg = "Please wait {COOLDOWN} before using that.";
-        this.permissionMsg = "You need the {PERMISSION} permission.";
-        this.devOnlyMsg = "You must a developer to use this command.";
-        if (!client) {
-            throw new error_1.default("Please provide a Discord.js client in the first argument.");
-        }
-        this._client = client;
-        this._commandsDir = commandsDir || this._commandsDir;
-        if (!commandsDir) {
-            console.warn('Slashcord >> There was no commands directory provided, using "./commands"');
-        }
-        this._slash = new slash_1.default(this);
-        this._command = new CommandHandler_1.CommandHandler(this, this._commandsDir);
-        if (options && "testServers" in options)
-            this._testServers = options.testServers;
-        if (options && "botOwners" in options)
-            this._botOwners = options.botOwners;
-        if (options && "cooldownError" in options)
-            this.cooldownMsg = options.cooldownError;
-        if (options && "permissionError" in options)
-            this.permissionMsg = options.permissionError;
-        if (options && "devError" in options)
-            this.devOnlyMsg = options.devError;
-        if (options && "useComponents" in options)
-            this._useComponents = options.useComponents;
+  constructor(client, commandsDir, options) {
+    this._commandsDir = "./commands";
+    this._featuresDir = "";
+    this._testServers = [];
+    this._botOwners = [];
+    this._useComponents = false;
+    this.commands = new discord_js_1.Collection();
+    this.cooldowns = new discord_js_1.Collection();
+    this.cooldownMsg = "Please wait {COOLDOWN} before using that.";
+    this.permissionMsg = "You need the {PERMISSION} permission.";
+    this.devOnlyMsg = "You must a developer to use this command.";
+    if (!client) {
+      throw new error_1.default(
+        "Please provide a Discord.js client in the first argument."
+      );
     }
-    get client() {
-        return this._client;
+    this._client = client;
+    this._commandsDir = commandsDir || this._commandsDir;
+    if (!commandsDir) {
+      console.warn(
+        'Slashcord >> There was no commands directory provided, using "./commands"'
+      );
     }
-    get testServers() {
-        return this._testServers;
-    }
-    get botOwners() {
-        return this._botOwners;
-    }
-    get slashCmds() {
-        return this._slash;
-    }
+    this._slash = new slash_1.default(this);
+    this._command = new CommandHandler_1.CommandHandler(
+      this,
+      this._commandsDir
+    );
+    if (options && "testServers" in options)
+      this._testServers = options.testServers;
+    if (options && "botOwners" in options) this._botOwners = options.botOwners;
+    if (options && "cooldownError" in options)
+      this.cooldownMsg = options.cooldownError;
+    if (options && "permissionError" in options)
+      this.permissionMsg = options.permissionError;
+    if (options && "devError" in options) this.devOnlyMsg = options.devError;
+    if (options && "useComponents" in options)
+      this._useComponents = options.useComponents;
+  }
+  get client() {
+    return this._client;
+  }
+  get testServers() {
+    return this._testServers;
+  }
+  get botOwners() {
+    return this._botOwners;
+  }
+  get slashCmds() {
+    return this._slash;
+  }
 }
 Slashcord.Command = command_1.Command;
 Slashcord.ActionRow = ActionRow_1.ActionRow;

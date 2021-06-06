@@ -2,10 +2,10 @@ import { Client, Collection, Structures } from "discord.js";
 import { CommandHandler } from "./handlers/CommandHandler";
 import Slasherror from "./utilities/extras/error";
 import Slashcmds from "./utilities/slash";
-import { ActionRow } from "./utilities/ActionRow";
-import { MessageButton } from "./utilities/MessageButton";
+import { ActionRow } from "./utilities/buttons/ActionRow";
+import { MessageButton } from "./utilities/buttons/MessageButton";
 import { Command } from "./utilities/command";
-import { awaitButtons } from "./utilities/awaitButtons";
+import { awaitButtons } from "./utilities/buttons/awaitButtons";
 
 type SlashcordOptions = {
   useComponents?: boolean | undefined;
@@ -64,8 +64,7 @@ class Slashcord {
     this._command = new CommandHandler(this, this._commandsDir);
     if (options && "testServers" in options)
       this._testServers = options.testServers;
-    if (options && "botOwners" in options)
-      this._botOwners = options.botOwners;
+    if (options && "botOwners" in options) this._botOwners = options.botOwners;
     if (options && "cooldownError" in options)
       this.cooldownMsg = options.cooldownError;
     if (options && "permissionError" in options)
@@ -93,3 +92,4 @@ class Slashcord {
 }
 
 export default Slashcord;
+export { Command, MessageButton, ActionRow, awaitButtons };

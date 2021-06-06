@@ -1,10 +1,12 @@
 import { TextChannel } from "discord.js";
-import { MessageButton } from "./MessageButton";
+import { MessageButton } from "./buttons/MessageButton";
 
 type Component = MessageButton;
-type ButtonCollectorOptions = { time: null, max: number, errors: string[], maxProcessed: number }
+type ButtonCollectorOptions = {
+  time: null;
+  max: number;
+  errors: string[];
+  maxProcessed: number;
+};
 
-export type {
-    Component,
-    ButtonCollectorOptions
-}
+export type { Component, ButtonCollectorOptions };
