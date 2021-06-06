@@ -11,7 +11,7 @@ import {
 } from "discord.js";
 
 import Slashcord from "..";
-import { ActionRow } from "./ActionRow";
+import { ActionRow } from "./buttons/ActionRow";
 import Slasherror from "./extras/error";
 import {
   isComponent,
@@ -216,7 +216,16 @@ class Interaction {
    * Editing an interaction with ease.
    * @example interaction.reply('wait, gimme a sec.') interaction.edit('👌')
    */
-  async edit(content: any, options: {}) {
+  async edit(
+    content: any,
+    options?:
+      | Options
+      | Component
+      | ActionRow
+      | Component[]
+      | ActionRow[]
+      | undefined
+  ) {
     if (!content) {
       throw new Slasherror(`Cannot send an empty message.`);
     }
@@ -292,7 +301,16 @@ class Interaction {
    * Following up with another message! Cool!
    * @example await interaction.reply('Hey!') interaction.followUp('hm...')
    */
-  async followUp(response: any, options: any) {
+  async followUp(
+    response: any,
+    options?:
+      | Options
+      | Component
+      | ActionRow
+      | Component[]
+      | ActionRow[]
+      | undefined
+  ) {
     if (!response) {
       throw new Slasherror("Cannot send an empty message.");
     }

@@ -1,4 +1,4 @@
-import { isEmoji } from "./extras/utils";
+import { isEmoji } from "../extras/utils";
 
 const styles = {
   blurple: 1,

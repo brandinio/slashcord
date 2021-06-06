@@ -2,10 +2,10 @@ import { Client, Collection, Structures } from "discord.js";
 import { CommandHandler } from "./handlers/CommandHandler";
 import Slasherror from "./utilities/extras/error";
 import Slashcmds from "./utilities/slash";
-import { ActionRow } from "./utilities/ActionRow";
-import { MessageButton } from "./utilities/MessageButton";
+import { ActionRow } from "./utilities/buttons/ActionRow";
+import { MessageButton } from "./utilities/buttons/MessageButton";
 import { Command } from "./utilities/command";
-import { awaitButtons } from "./utilities/awaitButtons";
+import { awaitButtons } from "./utilities/buttons/awaitButtons";
 
 type SlashcordOptions = {
   useComponents?: boolean | undefined;

@@ -8,7 +8,7 @@ import { Interaction } from "../utilities/interaction";
 
 import ms from "ms";
 import { msToTime, missingPermissions } from "../utilities/extras/utils";
-import { ButtonInteraction } from "../utilities/ButtonInteraction";
+import { ButtonInteraction } from "../utilities/buttons/ButtonInteraction";
 
 class CommandHandler {
   private _client: Client;
