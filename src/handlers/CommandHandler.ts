@@ -62,7 +62,6 @@ class CommandHandler {
 
         if (testOnly) {
           for (const server of handler.testServers!) {
-            console.log(name, description);
             await handler.slashCmds.create(name, description, options, server);
             handler.commands.set(name, command);
           }
