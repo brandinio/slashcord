@@ -65,7 +65,7 @@ class Slashcord {
     if (options && "testServers" in options)
       this._testServers = options.testServers;
     if (options && "botOwners" in options)
-      this._testServers = options.botOwners;
+      this._botOwners = options.botOwners;
     if (options && "cooldownError" in options)
       this.cooldownMsg = options.cooldownError;
     if (options && "permissionError" in options)
