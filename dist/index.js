@@ -3,20 +3,21 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.Command = void 0;
 const discord_js_1 = require("discord.js");
 const CommandHandler_1 = require("./handlers/CommandHandler");
 const error_1 = __importDefault(require("./utilities/extras/error"));
 const slash_1 = __importDefault(require("./utilities/slash"));
+const ActionRow_1 = require("./utilities/ActionRow");
+const MessageButton_1 = require("./utilities/MessageButton");
 const command_1 = require("./utilities/command");
-Object.defineProperty(exports, "Command", { enumerable: true, get: function () { return command_1.Command; } });
+const awaitButtons_1 = require("./utilities/awaitButtons");
 class Slashcord {
     constructor(client, commandsDir, options) {
         this._commandsDir = "./commands";
         this._featuresDir = "";
         this._testServers = [];
         this._botOwners = [];
-        this._useButtons = false;
+        this._useComponents = false;
         this.commands = new discord_js_1.Collection();
         this.cooldowns = new discord_js_1.Collection();
         this.cooldownMsg = "Please wait {COOLDOWN} before using that.";
@@ -32,20 +33,18 @@ class Slashcord {
         }
         this._slash = new slash_1.default(this);
         this._command = new CommandHandler_1.CommandHandler(this, this._commandsDir);
-        if (options) {
-            if (options.botOwners)
-                this._botOwners = options.botOwners;
-            if (options.testServers)
-                this._testServers = options.testServers;
-            if (options.useButtons)
-                this._useButtons = options.useButtons;
-            if (options.permissionError)
-                this.permissionMsg = options.permissionError;
-            if (options.devError)
-                this.devOnlyMsg = options.devError;
-            if (options.cooldownError)
-                this.cooldownMsg = options.cooldownError;
-        }
+        if (options && "testServers" in options)
+            this._testServers = options.testServers;
+        if (options && "botOwners" in options)
+            this._botOwners = options.botOwners;
+        if (options && "cooldownError" in options)
+            this.cooldownMsg = options.cooldownError;
+        if (options && "permissionError" in options)
+            this.permissionMsg = options.permissionError;
+        if (options && "devError" in options)
+            this.devOnlyMsg = options.devError;
+        if (options && "useComponents" in options)
+            this._useComponents = options.useComponents;
     }
     get client() {
         return this._client;
@@ -60,4 +59,8 @@ class Slashcord {
         return this._slash;
     }
 }
+Slashcord.Command = command_1.Command;
+Slashcord.ActionRow = ActionRow_1.ActionRow;
+Slashcord.MessageButton = MessageButton_1.MessageButton;
+Slashcord.awaitButtons = awaitButtons_1.awaitButtons;
 exports.default = Slashcord;

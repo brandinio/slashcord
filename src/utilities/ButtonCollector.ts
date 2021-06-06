@@ -2,11 +2,12 @@
 
 import { Collection, Collector, Constants } from "discord.js";
 import { ButtonInteraction } from "./ButtonInteraction";
+import { ButtonCollectorOptions } from "./types";
 const { Events } = Constants
 
 
 class ButtonCollector extends Collector<string, ButtonInteraction> {
-  constructor(message, filter, options = {}) {
+  constructor(message, filter, options: ButtonCollectorOptions) {
     super(message.client, filter, options);
 
     this.message = message;
