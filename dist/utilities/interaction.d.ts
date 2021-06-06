@@ -1,6 +1,6 @@
 import { Client, Guild, GuildMember, Message, TextChannel } from "discord.js";
 import Slashcord from "..";
-import { ActionRow } from "./ActionRow";
+import { ActionRow } from "./buttons/ActionRow";
 import { Component } from "./types";
 declare type Options = {
     tts?: boolean;

@@ -1,4 +1,4 @@
-import { MessageButton } from "./MessageButton";
+import { MessageButton } from "./buttons/MessageButton";
 declare type Component = MessageButton;
 declare type ButtonCollectorOptions = {
     time: null;

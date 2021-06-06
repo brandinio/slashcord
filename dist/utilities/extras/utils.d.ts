@@ -1,6 +1,6 @@
 import { GuildMember, PermissionResolvable } from "discord.js";
-import { MessageButton } from "../MessageButton";
-import { ActionRow } from "../ActionRow";
+import { MessageButton } from "../buttons/MessageButton";
+import { ActionRow } from "../buttons/ActionRow";
 declare type Component = MessageButton;
 declare function msToTime(ms: number): string;
 declare function missingPermissions(member: GuildMember, perms: PermissionResolvable): string;
@@ -22,4 +22,4 @@ declare function resolveActionRow(actionRow: ActionRow): {
 };
 declare function isEmoji(emoji: string): boolean;
 declare function isComponent(component: any): boolean;
-export { msToTime, missingPermissions, resolveComponent, isEmoji, resolveActionRow, isComponent };
+export { msToTime, missingPermissions, resolveComponent, isEmoji, resolveActionRow, isComponent, };

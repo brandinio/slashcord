@@ -4,7 +4,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.isComponent = exports.resolveActionRow = exports.isEmoji = exports.resolveComponent = exports.missingPermissions = exports.msToTime = void 0;
-const MessageButton_1 = require("../MessageButton");
+const MessageButton_1 = require("../buttons/MessageButton");
 const error_1 = __importDefault(require("./error"));
 function msToTime(ms) {
     let day, hour, minute, seconds;
@@ -39,15 +39,15 @@ function missingPermissions(member, perms) {
 }
 exports.missingPermissions = missingPermissions;
 function resolveComponent(component) {
-    if (component.type = 2) {
+    if ((component.type = 2)) {
         if (!component.style)
-            throw new error_1.default('No button style provided');
+            throw new error_1.default("No button style provided");
         if (!component.label && !component.emoji)
-            throw new error_1.default('No button emoji or label was provided');
+            throw new error_1.default("No button emoji or label was provided");
         if (component.style == 5 && !component.url)
-            throw new error_1.default('Button style set to Link yet no URL provided');
+            throw new error_1.default("Button style set to Link yet no URL provided");
         if (component.style !== 5 && !component.customId)
-            throw new error_1.default('No button custom id provided');
+            throw new error_1.default("No button custom id provided");
         return {
             type: 2,
             style: component.style,
@@ -55,21 +55,21 @@ function resolveComponent(component) {
             emoji: component.emoji,
             url: component.url,
             custom_id: component.customId,
-            disabled: 'disabled' in component && component.disabled ? true : false,
+            disabled: "disabled" in component && component.disabled ? true : false,
         };
     }
 }
 exports.resolveComponent = resolveComponent;
 function resolveActionRow(actionRow) {
     const components = [];
-    actionRow.components.forEach(component => {
+    actionRow.components.forEach((component) => {
         components.push(resolveComponent(component));
     });
     if (components.length == 0)
-        throw new error_1.default('ActionRow cannot have no components');
+        throw new error_1.default("ActionRow cannot have no components");
     return {
         type: 1,
-        components: components
+        components: components,
     };
 }
 exports.resolveActionRow = resolveActionRow;
