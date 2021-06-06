@@ -1,8 +1,11 @@
 import { Client, Collection } from "discord.js";
 import Slashcmds from "./utilities/slash";
+import { ActionRow } from "./utilities/ActionRow";
+import { MessageButton } from "./utilities/MessageButton";
 import { Command } from "./utilities/command";
+import { awaitButtons } from "./utilities/awaitButtons";
 declare type SlashcordOptions = {
-    useButtons?: boolean | undefined;
+    useComponents?: boolean | undefined;
     testServers?: string[] | undefined;
     botOwners?: string[] | undefined;
     cooldownError?: string | undefined;
@@ -10,12 +13,16 @@ declare type SlashcordOptions = {
     devError?: string | undefined;
 };
 declare class Slashcord {
+    static Command: typeof Command;
+    static ActionRow: typeof ActionRow;
+    static MessageButton: typeof MessageButton;
+    static awaitButtons: typeof awaitButtons;
     private _client;
     private _commandsDir;
     private _featuresDir;
     private _testServers;
     private _botOwners;
-    private _useButtons;
+    private _useComponents;
     commands: Collection<string, Command>;
     cooldowns: Collection<string, any>;
     private _slash;
@@ -30,4 +37,4 @@ declare class Slashcord {
     get slashCmds(): Slashcmds;
 }
 export default Slashcord;
-export { Command };
+export { Command, MessageButton, ActionRow, awaitButtons };

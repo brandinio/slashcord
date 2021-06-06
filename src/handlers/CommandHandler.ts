@@ -1,4 +1,4 @@
-import { Client, Collection } from "discord.js";
+import { Client, Collection, DiscordAPIError } from "discord.js";
 import { existsSync } from "fs";
 import { isAbsolute, join } from "path";
 import Slashcord from "..";
@@ -35,7 +35,7 @@ class CommandHandler {
     for (const [file, fileName] of files) {
       (async () => {
         const command = (await import(file)).default;
-        let {
+        const {
           name = fileName,
           description,
           options,
@@ -62,6 +62,7 @@ class CommandHandler {
 
         if (testOnly) {
           for (const server of handler.testServers!) {
+            console.log(name, description);
             await handler.slashCmds.create(name, description, options, server);
             handler.commands.set(name, command);
           }
@@ -77,13 +78,17 @@ class CommandHandler {
      */
     //@ts-ignore
     this._client.ws.on("INTERACTION_CREATE", (interaction) => {
-      if (interaction.type == 3){
-        const button = new ButtonInteraction(interaction, { client: this._client, member: interaction.member }, handler )
-        this._client.emit('button', button)
-        return
+      if (interaction.type == 3) {
+        const button = new ButtonInteraction(
+          interaction,
+          { client: this._client, member: interaction.member },
+          handler
+        );
+        this._client.emit("button", button);
+        return;
       }
 
-      if (interaction.type !== 2) return
+      if (interaction.type !== 2) return;
       const { name, options: args } = interaction.data;
       const cmdName = name.toLowerCase();
 
@@ -100,7 +105,7 @@ class CommandHandler {
       if (!command) return;
       const { execute, perms, cooldown, devOnly } = command;
 
-      if (devOnly && interaction.member.user.id !== "795336949795258378") {
+      if (devOnly && !handler.botOwners?.includes(interaction.member.user.id)) {
         return interaction.reply(handler.devOnlyMsg);
       }
 

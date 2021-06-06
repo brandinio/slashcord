@@ -29,6 +29,7 @@ class Slashcmds {
     if (guildId) {
       slash.guilds(guildId);
     }
+
     return await slash.commands.post({
       data: {
         name,

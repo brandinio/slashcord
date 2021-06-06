@@ -40,6 +40,7 @@ const getFiles_1 = __importDefault(require("../utilities/getFiles"));
 const interaction_1 = require("../utilities/interaction");
 const ms_1 = __importDefault(require("ms"));
 const utils_1 = require("../utilities/extras/utils");
+const ButtonInteraction_1 = require("../utilities/ButtonInteraction");
 class CommandHandler {
     constructor(handler, directory) {
         this._client = handler.client;
@@ -56,7 +57,7 @@ class CommandHandler {
         for (const [file, fileName] of files) {
             (() => __awaiter(this, void 0, void 0, function* () {
                 const command = (yield Promise.resolve().then(() => __importStar(require(file)))).default;
-                let { name = fileName, description, options, testOnly, devOnly, } = command;
+                const { name = fileName, description, options, testOnly, devOnly, } = command;
                 if (!description) {
                     throw new error_1.default(`A description is required for the command: "${name}", since it's a slash command.`);
                 }
@@ -68,6 +69,7 @@ class CommandHandler {
                 }
                 if (testOnly) {
                     for (const server of handler.testServers) {
+                        console.log(name, description);
                         yield handler.slashCmds.create(name, description, options, server);
                         handler.commands.set(name, command);
                     }
@@ -83,6 +85,14 @@ class CommandHandler {
          */
         //@ts-ignore
         this._client.ws.on("INTERACTION_CREATE", (interaction) => {
+            var _a;
+            if (interaction.type == 3) {
+                const button = new ButtonInteraction_1.ButtonInteraction(interaction, { client: this._client, member: interaction.member }, handler);
+                this._client.emit("button", button);
+                return;
+            }
+            if (interaction.type !== 2)
+                return;
             const { name, options: args } = interaction.data;
             const cmdName = name.toLowerCase();
             /** The extras */
@@ -93,7 +103,7 @@ class CommandHandler {
             if (!command)
                 return;
             const { execute, perms, cooldown, devOnly } = command;
-            if (devOnly && interaction.member.user.id !== "795336949795258378") {
+            if (devOnly && !((_a = handler.botOwners) === null || _a === void 0 ? void 0 : _a.includes(interaction.member.user.id))) {
                 return interaction.reply(handler.devOnlyMsg);
             }
             if (!handler.cooldowns.has(command.name)) {
