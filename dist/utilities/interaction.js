@@ -314,11 +314,49 @@ class Interaction {
                 const embed = new discord_js_1.MessageEmbed(response);
                 data = yield this.handler.slashCmds.APIMsg(this.channel, embed);
             }
-            if (data.embeds) {
-                data.embeds = [options.embeds];
+			
+			if (utils_1.isComponent(options))
+                data.components = [
+                    {
+                        type: 1,
+                        components: [utils_1.resolveComponent(options)],
+                    },
+                ];
+            if (options instanceof ActionRow_1.ActionRow) {
+                if (!options.components)
+                    throw new error_1.default("Cannot send ActionRow with no components");
+                data.components = [utils_1.resolveActionRow(options)];
             }
-            if (data.tts) {
-                data.tts = options.tts || false;
+            const isComponentArray = (i) => utils_1.isComponent(i);
+            const isActionRowArray = (i) => i instanceof ActionRow_1.ActionRow;
+            if (Array.isArray(options)) {
+                if (options.every(isComponentArray)) {
+                    data.components = [
+                        {
+                            type: 1,
+                            components: [],
+                        },
+                    ];
+                    if (options.length > 5)
+                        throw new error_1.default("You have exceeded 5 buttons, if you want to add more than 5 use the ActionRow method as documented in the documentation");
+                    options.forEach((component) => {
+                        data.components[0].components.push(utils_1.resolveComponent(component));
+                    });
+                    return;
+                }
+                if (options.every(isActionRowArray)) {
+                    const components = [];
+                    options.forEach((actionRow) => {
+                        components.push(utils_1.resolveActionRow(actionRow));
+                    });
+                    data.components = components;
+                }
+            }
+			
+            data.flags = (options === null || options === void 0 ? void 0 : options.flags) || undefined;
+            data.tts = (options === null || options === void 0 ? void 0 : options.tts) || false;
+            if (options === null || options === void 0 ? void 0 : options.embeds) {
+                data.embeds = [options === null || options === void 0 ? void 0 : options.embeds];
             }
             //@ts-ignore
             this.client.api.interactions(this.id, this.token).callback.post({

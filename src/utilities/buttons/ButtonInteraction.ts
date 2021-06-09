@@ -426,11 +426,53 @@ class ButtonInteraction {
       data = await this.handler.slashCmds.APIMsg(this.channel, embed);
     }
 
-    if (data.embeds) {
-      data.embeds = [options.embeds];
+    if (isComponent(options))
+      data.components = [
+        {
+          type: 1,
+          components: [resolveComponent(options)],
+        },
+      ];
+
+    if (options instanceof ActionRow) {
+      if (!options.components)
+        throw new Slasherror("Cannot send ActionRow with no components");
+      data.components = [resolveActionRow(options)];
     }
-    if (data.tts) {
-      data.tts = options.tts || false;
+
+    const isComponentArray = (i: any) => isComponent(i);
+    const isActionRowArray = (i: any) => i instanceof ActionRow;
+
+    if (Array.isArray(options)) {
+      if (options.every(isComponentArray)) {
+        data.components = [
+          {
+            type: 1,
+            components: [],
+          },
+        ];
+        if (options.length > 5)
+          throw new Slasherror(
+            "You have exceeded 5 buttons, if you want to add more than 5 use the ActionRow method as documented in the documentation"
+          );
+        options.forEach((component) => {
+          data.components[0].components.push(resolveComponent(component));
+        });
+        return;
+      }
+      if (options.every(isActionRowArray)) {
+        const components: any = [];
+        options.forEach((actionRow) => {
+          components.push(resolveActionRow(actionRow));
+        });
+        data.components = components;
+      }
+    }
+
+    data.flags = options?.flags || undefined;
+    data.tts = options?.tts || false;
+    if (options?.embeds!) {
+      data.embeds = [options?.embeds];
     }
 
     //@ts-ignore
