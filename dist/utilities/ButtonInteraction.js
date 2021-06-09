@@ -326,6 +326,9 @@ class ButtonInteraction {
                 const embed = new discord_js_1.MessageEmbed(response);
                 data = yield this.handler.slashCmds.APIMsg(this.channel, embed);
             }
+			
+			data.flags = 64; // This gets reset by the line above when sending an embed, manually setting it here unless someone can find a better way
+			
             if (utils_1.isComponent(options))
                 data.components = [
                     {
@@ -363,7 +366,6 @@ class ButtonInteraction {
                     data.components = components;
                 }
             }
-            data.flags = (options === null || options === void 0 ? void 0 : options.flags) || undefined;
             data.tts = (options === null || options === void 0 ? void 0 : options.tts) || false;
             if (options === null || options === void 0 ? void 0 : options.embeds) {
                 data.embeds = [options === null || options === void 0 ? void 0 : options.embeds];

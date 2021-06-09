@@ -315,6 +315,8 @@ class Interaction {
                 data = yield this.handler.slashCmds.APIMsg(this.channel, embed);
             }
 			
+			data.flags = 64; // This gets reset by the line above when sending an embed, manually setting it here unless someone can find a better way
+			
 			if (utils_1.isComponent(options))
                 data.components = [
                     {
@@ -353,11 +355,11 @@ class Interaction {
                 }
             }
 			
-            data.flags = (options === null || options === void 0 ? void 0 : options.flags) || undefined;
             data.tts = (options === null || options === void 0 ? void 0 : options.tts) || false;
             if (options === null || options === void 0 ? void 0 : options.embeds) {
                 data.embeds = [options === null || options === void 0 ? void 0 : options.embeds];
             }
+			console.log(data);
             //@ts-ignore
             this.client.api.interactions(this.id, this.token).callback.post({
                 data: {

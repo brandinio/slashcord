@@ -426,6 +426,8 @@ class Interaction {
       data = await this.handler.slashCmds.APIMsg(this.channel, embed);
     }
 	
+	data.flags = 64; // This gets reset by the line above when sending an embed, manually setting it here unless someone can find a better way
+	
 	if (isComponent(options))
       data.components = [
         {
@@ -469,7 +471,6 @@ class Interaction {
       }
     }
 
-    data.flags = options?.flags || undefined;
     data.tts = options?.tts || false;
     if (options?.embeds!) {
       data.embeds = [options?.embeds];
